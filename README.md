@@ -3,7 +3,7 @@
 
 ### Module Usage:
 
-```json
+```jsonc
 module "policy_provisioner" {
   source = "./policy_provisioner"
 
@@ -44,7 +44,7 @@ module "policy_provisioner" {
 Policy-Assignments are done via the `<management_group_name>.assignments.json`-Files. Each Mangament-Group has a corresponding file.
 
 #### **Structure of `<management_group_name>.assignments.json`**
-```json
+```jsonc
 {
   "App Service": [],
   "Automation": [],
@@ -95,7 +95,7 @@ Each Policy-Definition consits of a `<name>.paramters.json*` and a corresponding
 
 #### **Structure of `<name>.paramters.json`**
 Defines all the Metadata and Parameters of a Policy-Definition as follows:
-```json
+```jsonc
 {
     "displayName": "(Optional) The Policy-Definition Displayname",
     "description": "(Optional) A general Description of the Policy-Definition",
@@ -131,7 +131,7 @@ Defines all the Metadata and Parameters of a Policy-Definition as follows:
 ```
 #### **Structure of `<name>.rules.json`**
 Defines the Rule of a Polciy-Definition.
-```json
+```jsonc
 {
     "if": {
         "allOf": [
@@ -187,7 +187,7 @@ Each PolicySet-Definition consits of a `<name>.parameters.json` and a correspond
 
 #### **Structure of `<name>.paramters.json`**
 Like the Policy-Definition, these hold all the Metadata and Parameters for a PolicySet-Definition as follows:
-```json
+```jsonc
 {
     "displayName": "(Optional) inherit-tags",
     "description": "(Optional)",
@@ -202,7 +202,7 @@ Like the Policy-Definition, these hold all the Metadata and Parameters for a Pol
 
 #### **Structure of `<name>.paramters.json`**
 These hold all the Policies, that are Part of the Set, and pass down any Parameters
-```json
+```jsonc
 [
     {
         "policyDefinitionName": "inherit-accountable",
