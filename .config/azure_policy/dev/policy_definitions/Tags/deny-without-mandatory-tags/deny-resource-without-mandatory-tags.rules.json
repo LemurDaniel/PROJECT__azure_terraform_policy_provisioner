@@ -6,6 +6,7 @@
                     {
                         "count": {
                             "value": [
+                                "Microsoft.Web/*",
                                 "Microsoft.Insights/*",
                                 "Microsoft.Compute/virtualMachines/*",
                                 "Microsoft.Network/networkWatchers/*",
@@ -14,7 +15,9 @@
                                 "Microsoft.Network/firewallPolicies",
                                 "Microsoft.Compute/restorePointCollections",
                                 "Microsoft.Automation/AutomationAccounts/Configurations",
-                                "Microsoft.Portal/dashboards"
+                                "Microsoft.Portal/dashboards",
+                                "Microsoft.Compute/snapshots",
+                                "Microsoft.SqlVirtualMachine*"
                             ],
                             "where": {
                                 "field": "type",
@@ -40,6 +43,16 @@
             {
                 "value": "[resourceGroup().name]",
                 "notLike": "AzureBackupRG_*"
+            },
+            {
+                "count": {
+                    "value": "[parameters('ExcludedResourceScopes')]",
+                    "where": {
+                        "field": "id",
+                        "like": "[concat(current(), '*')]"
+                    }
+                },
+                "equals": 0
             },
             {
                 "anyOf": [

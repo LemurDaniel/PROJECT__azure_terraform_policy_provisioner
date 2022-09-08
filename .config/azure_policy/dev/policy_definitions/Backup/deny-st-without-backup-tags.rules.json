@@ -1,0 +1,43 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Storage/storageAccounts"
+            },
+            {
+                "value": "[parameters('enableEnforceFileTags')]",
+                "equals": true
+            },
+            {
+                "count": {
+                    "value": "[parameters('ExcludedResourceScopes')]",
+                    "where": {
+                        "field": "id",
+                        "like": "[concat(current(), '*')]"
+                    }
+                },
+                "equals": 0
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "[concat('tags[', parameters('backupTagNameBlob'), ']')]",
+                        "exists": false
+                    },
+                    {
+                        "field": "[concat('tags[', parameters('backupTagNameFiles'), ']')]",
+                        "exists": false
+                    },
+                    {
+                        "field": "[concat('tags[', parameters('backupTagNameFilesharesList'), ']')]",
+                        "exists": false
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

@@ -162,21 +162,6 @@
         }
     },
     {
-        "policyDefinitionName": "deny-acf-backuppolicy",
-        "policyReferenceId": "deny-acf-backuppolicy",
-        "parameters": {
-            "effect": {
-                "value": "[parameters('effect')]"
-            },
-            "defaultExclusionTagValue": {
-                "value": "[parameters('defaultExclusionTagValue')]"
-            },
-            "listOfAllowed_acfBackupPolicyVm_patterns": {
-                "value": "[parameters('listOfAllowed_acfBackupPolicyVm_patterns')]"
-            }
-        }
-    },
-    {
         "policyDefinitionName": "deny-acf-vmoperatinghours",
         "policyReferenceId": "deny-acf-vmoperatinghours",
         "parameters": {

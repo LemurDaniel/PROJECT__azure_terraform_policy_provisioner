@@ -1,0 +1,37 @@
+{
+    "displayName": "dine-st-backup-resourcelock",
+    "description": "This Policy forces resource locks on storage account with an backup tag.",
+    "mode": "Indexed",
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "Audit",
+                "Deny",
+                "Disabled",
+                "DeployIfNotExists"
+            ],
+            "defaultValue": "Audit"
+        },
+        "resourceLockName": {
+            "type": "String",
+            "defaultValue": "AzureBackupProtectionLock"
+        },
+        "backupTagNameBlob": {
+            "type": "String",
+            "defaultValue": ""
+        },
+        "backupTagValuesBlob": {
+            "type": "Array",
+            "defaultValue": []
+        },
+        "ExcludedResourceScopes": {
+            "type": "Array",
+            "defaultValue": []
+        }
+    }
+}

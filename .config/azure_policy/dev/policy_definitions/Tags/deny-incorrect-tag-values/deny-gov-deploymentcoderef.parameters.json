@@ -1,6 +1,7 @@
 {
     "displayName": "deny-gov-deploymentcoderef",
     "description": "",
+    "mode": "All",
     "parameters": {
         "effect": {
             "type": "string"

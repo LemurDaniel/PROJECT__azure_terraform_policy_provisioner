@@ -3,7 +3,7 @@
         "allOf": [
             {
                 "count": {
-                    "value": "[parameters('ExcludedVmNamePatterns')]",
+                    "value": "[parameters('excludedVmNamePatterns')]",
                     "name": "pattern",
                     "where": {
                         "field": "name",
@@ -35,16 +35,12 @@
                     {
                         "field": "tags['acfVmOperatingHours']",
                         "exists": "false"
-                    },
-                    {
-                        "field": "tags['acfBackupPolicyVm']",
-                        "exists": "false"
                     }
                 ]
             }
         ]
     },
     "then": {
-        "effect": "deny"
+        "effect": "[parameters('effect')]"
     }
 }

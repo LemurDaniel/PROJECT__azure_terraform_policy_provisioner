@@ -1,6 +1,7 @@
 {
     "displayName": "deny-gov-environment",
     "description": "",
+    "mode": "All",
     "parameters": {
         "effect": {
             "type": "string"

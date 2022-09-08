@@ -59,6 +59,7 @@
                 "*@baugruppe.de",
                 "*@bayernhaus.de",
                 "*@bib-gmbh.de",
+                "*@bg-planung.de",
                 "*@NBGRedeploymentTest.onmicrosoft.com"
             ]
         },
@@ -108,15 +109,6 @@
                 "Internal",
                 "External",
                 "Corporate"
-            ]
-        },
-        "listOfAllowed_acfBackupPolicyVm_patterns": {
-            "type": "Array",
-            "defaultValue": [
-                "Bp#Vm01y",
-                "Bp#Vm02w",
-                "Bp#Vm02y",
-                "Bp#Vm26w"
             ]
         },
         "listOfAllowed_TimeZone_values": {

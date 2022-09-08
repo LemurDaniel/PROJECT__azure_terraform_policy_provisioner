@@ -1,0 +1,68 @@
+{
+    "mode": "Indexed",
+    "displayName": "dine-vm-backup-euwe",
+    "description": "Enforce backup for all virtual machines by backing them up to an existing central recovery services vault in the same location and subscription as the virtual machine. Doing this is useful when there is a central team in your organization managing backups for all resources in a subscription. You can optionally include virtual machines containing a specified tag to control the scope of assignment. See https://aka.ms/AzureVMCentralBackupIncludeTag.",
+    "parameters": {
+        "vaultLocation": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Location (Specify the location of the VMs that you want to protect)",
+                "description": "Specify the location of the VMs that you want to protect. VMs should be backed up to a vault in the same location. For example - CanadaCentral",
+                "strongType": "location"
+            }
+        },
+        "vaultResourceGroupName": {
+            "type": "String",
+            "metadata": {
+                "displayName": "vaultResourceGroupName",
+                "description": "Resource Group name for the centralized backup vault"
+            },
+            "defaultValue": ""
+        },
+        "vaultName": {
+            "type": "String",
+            "metadata": {
+                "displayName": "vaultName",
+                "description": ""
+            },
+            "defaultValue": ""
+        },
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "defaultValue": "auditIfNotExists"
+        },
+        "inclusionTagName": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Inclusion Tag Name",
+                "description": "Name of the tag to use for including VMs in the scope of this policy. This should be used along with the Inclusion Tag Value parameter. Learn more at https://aka.ms/AppCentricVMBackupPolicy"
+            },
+            "defaultValue": "acfBackupPolicyVm"
+        },
+        "allowedInclusionTagValues": {
+            "type": "Array",
+            "metadata": {
+                "displayName": "Inclusion Tag Values",
+                "description": "Value of the tag to use for including VMs in the scope of this policy. This should be used along with the Inclusion Tag Name parameter. Learn more at https://aka.ms/AppCentricVMBackupPolicy."
+            },
+            "defaultValue": [
+                "Bp1Vm01y",
+                "Bp1Vm02w",
+                "Bp1Vm02y",
+                "Bp1Vm26w"
+            ]
+        },
+        "exclusionTagValue": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Exclusion Tag Value",
+                "description": "Tag value to exclude VM from backups"
+            },
+            "defaultValue": "None"
+        }
+    }
+}

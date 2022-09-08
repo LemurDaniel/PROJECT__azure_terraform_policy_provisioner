@@ -1,0 +1,64 @@
+{
+    "displayName": "dine-backup-item",
+    "description": "This initiative deploys the backups for Vms and Storage accounts and enforces correct tag values for the needed tags.",
+    "managedIdentity": "SystemAssigned",
+    "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+    ],
+    "parameters": {
+        "effectDeny": {
+            "type": "string"
+        },
+        "effectDine": {
+            "type": "string"
+        },
+        "enableEnforceGRS": {
+            "type": "boolean"
+        },
+        "enableEnforceFileTags": {
+            "type": "boolean",
+            "defaultValue": false
+        },
+        "location": {
+            "type": "String"
+        },
+        "resourceGroupBV": {
+            "type": "String"
+        },
+        "vaultNameBV": {
+            "type": "String"
+        },
+        "resourceGroupRSV": {
+            "type": "String"
+        },
+        "vaultNameRSV": {
+            "type": "String"
+        },
+        "defaultExclusionTagValue": {
+            "type": "String"
+        },
+        "backupTagNameBlob": {
+            "type": "String"
+        },
+        "backupTagNameFiles": {
+            "type": "String"
+        },
+        "backupTagNameFilesharesList": {
+            "type": "String"
+        },
+        "backupTagNameFileEncoding": {
+            "type": "String",
+            "defaultValue": ""
+        },
+        "listOfAllowed_acfBackupPolicyBlob_patterns": {
+            "type": "Array"
+        },
+        "listOfAllowed_acfBackupPolicyFiles_patterns": {
+            "type": "Array"
+        },
+        "ExcludedResourceScopes": {
+            "type": "Array",
+            "defaultValue": []
+        }
+    }
+}

@@ -2,7 +2,7 @@
     "if": {
         "allOf": [
             {
-                "field": "tags['acfBackupPolicyVm']",
+                "field": "[concat('tags[', parameters('inlusionTagName'), ']')]",
                 "exists": "true"
             },
             {
@@ -10,20 +10,16 @@
                 "notLike": "AzureBackupRG*"
             },
             {
-                "field": "tags['acfBackupPolicyVm']",
-                "notEquals": "[parameters('defaultExclusionTagValue')]"
-            },
-            {
                 "count": {
-                    "value": "[parameters('listOfAllowed_acfBackupPolicyVm_patterns')]",
+                    "value": "[concat( parameters('listOfAllowed_acfBackupPolicy_patterns'), createArray(parameters('defaultExclusionTagValue')) )]",
                     "where": {
                         "allOf": [
                             {
-                                "value": "[length(field('tags[acfBackupPolicyVm]'))]",
-                                "equals": 8
+                                "equals": "[length(current())]",
+                                "value": "[length( field(concat('tags[', parameters('inlusionTagName'), ']')) )]"
                             },
                             {
-                                "field": "tags['acfBackupPolicyVm']",
+                                "field": "[concat('tags[', parameters('inlusionTagName'), ']')]",
                                 "match": "[current()]"
                             }
                         ]

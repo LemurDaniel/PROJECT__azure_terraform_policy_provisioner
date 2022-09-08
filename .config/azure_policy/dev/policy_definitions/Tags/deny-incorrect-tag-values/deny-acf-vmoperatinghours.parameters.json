@@ -1,6 +1,7 @@
 {
     "displayName": "deny-acf-vmoperatinghours",
     "description": "",
+    "mode": "All",
     "parameters": {
         "effect": {
             "type": "string"

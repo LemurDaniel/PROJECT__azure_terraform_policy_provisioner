@@ -1,0 +1,103 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Storage/storageAccounts"
+            },
+            {
+                "count": {
+                    "value": "[parameters('ExcludedResourceScopes')]",
+                    "where": {
+                        "field": "id",
+                        "like": "[concat(current(), '*')]"
+                    }
+                },
+                "equals": 0
+            },
+            {
+                "field": "[concat('tags[', parameters('backupTagNameBlob'), ']')]",
+                "exists": true
+            },
+            {
+                "field": "[concat('tags[', parameters('backupTagNameBlob'), ']')]",
+                "NotEquals": "None"
+            },
+            {
+                "count": {
+                    "value": "[parameters('backupTagValuesBlob')]",
+                    "where": {
+                        "allOf": [
+                            {
+                                "field": "[concat('tags[', parameters('backupTagNameBlob'), ']')]",
+                                "match": "[current()]"
+                            }
+                        ]
+                    }
+                },
+                "equals": 1
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+            "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            ],
+            "existenceScope": "resourceGroup",
+            "resourceGroupName": "[resourceGroup().name]",
+            "type": "Microsoft.Authorization/locks/",
+            "name": "[Parameters('resourceLockName')]",
+            "deployment": {
+                "properties": {
+                    "mode": "incremental",
+                    "template": {
+                        "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                            "lockName": {
+                                "type": "String"
+                            },
+                            "lockScope": {
+                                "type": "String"
+                            },
+                            "lockNotes": {
+                                "type": "String"
+                            },
+                            "lockLevel": {
+                                "type": "String"
+                            }
+                        },
+                        "resources": [
+                            {
+                                "type": "Microsoft.Authorization/locks",
+                                "apiVersion": "2015-06-01",
+                                "name": "[Parameters('lockName')]",
+                                "scope": "[Parameters('lockScope')]",
+                                "properties": {
+                                    "level": "[Parameters('lockLevel')]",
+                                    "notes": "[Parameters('lockNotes')]"
+                                }
+                            }
+                        ]
+                    },
+                    "parameters": {
+                        "lockName": {
+                            "value": "[parameters('resourceLockName')]"
+                        },
+                        "lockNotes": {
+                            "value": "(Recreated by Policy dine-st-backup-resourcelock) Auto-created by Azure Backup for storage accounts registered with a Recovery Services Vault. This lock is intended to guard against deletion of backups due to accidental deletion of the storage account."
+                        },
+                        "lockScope": {
+                            "value": "[field('id')]"
+                        },
+                        "lockLevel": {
+                            "value": "CanNotDelete"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

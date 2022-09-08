@@ -22,7 +22,7 @@
         "policyReferenceId": "inherit-businesscritical",
         "parameters": {
             "tagName": {
-                "value": "govBusinesscritical"
+                "value": "govBusinessCriticality"
             }
         }
     },
@@ -40,7 +40,7 @@
         "policyReferenceId": "inherit-costcenter",
         "parameters": {
             "tagName": {
-                "value": "govCostcenter"
+                "value": "govCostCenter"
             }
         }
     },
@@ -67,7 +67,7 @@
         "policyReferenceId": "inherit-workloaddescript",
         "parameters": {
             "tagName": {
-                "value": "govWorkloaddescription"
+                "value": "govWorkloadDescription"
             }
         }
     },
@@ -76,7 +76,7 @@
         "policyReferenceId": "inherit-workloadname",
         "parameters": {
             "tagName": {
-                "value": "govWorkloadname"
+                "value": "govWorkloadName"
             }
         }
     }

@@ -1,0 +1,32 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "like": "Microsoft.Storage/storageAccounts"
+            },
+            {
+                "value": "[parameters('enableEnforceGRS')]",
+                "equals": true
+            },
+            {
+                "field": "[concat('tags[', parameters('inclusionTagName'), ']')]",
+                "notEquals": "[parameters('exclusionTagValue')]"
+            },
+            {
+                "field": "Microsoft.Storage/storageAccounts/sku.name",
+                "notIn": [
+                    "Standard_GRS",
+                    "Standard_RAGRS"
+                ]
+            },
+            {
+                "field": "Microsoft.Storage/storageAccounts/largeFileSharesState",
+                "notLike": "Enabled"
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

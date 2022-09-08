@@ -1,0 +1,62 @@
+[
+    {
+        "policyDefinitionName": "dine-vm-backup",
+        "policyReferenceId": "dine-vm-backup",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effectDine')]"
+            },
+            "vaultLocation": {
+                "value": "[parameters('Location')]"
+            },
+            "vaultResourceGroupName": {
+                "value": "[parameters('resourceGroupRSV')]"
+            },
+            "vaultName": {
+                "value": "[parameters('vaultNameRSV')]"
+            },
+            "inclusionTagName": {
+                "value": "[parameters('backupTagNameVm')]"
+            },
+            "exclusionTagValue": {
+                "value": "[parameters('defaultExclusionTagValue')]"
+            },
+            "allowedInclusionTagValues": {
+                "value": "[parameters('listOfAllowed_acfBackupPolicyVm_patterns')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-vm-without-backup-tags",
+        "policyReferenceId": "deny-vm-without-backup-tags",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effectDeny')]"
+            },
+            "backupTagNameVm": {
+                "value": "[parameters('backupTagNameVm')]"
+            },
+            "excludedVmNamePatterns": {
+                "value": "[parameters('excludedVmNamePatterns')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-acf-backuppolicy",
+        "policyReferenceId": "deny-acf-backuppolicy-vm",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effectDeny')]"
+            },
+            "inlusionTagName": {
+                "value": "[parameters('backupTagNameVm')]"
+            },
+            "defaultExclusionTagValue": {
+                "value": "[parameters('defaultExclusionTagValue')]"
+            },
+            "listOfAllowed_acfBackupPolicy_patterns": {
+                "value": "[parameters('listOfAllowed_acfBackupPolicyVm_patterns')]"
+            }
+        }
+    }
+]

@@ -1,0 +1,23 @@
+{
+    "displayName": "deny-st-blobbackup-not-grs",
+    "description": "Enforces that all storage account with a blobstorage backup must be of sku Standard_GRS or Standard_RAGRS",
+    "mode": "Indexed",
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            }
+        },
+        "inclusionTagName": {
+            "type": "String"
+        },
+        "exclusionTagValue": {
+            "type": "String"
+        },
+        "enableEnforceGRS": {
+            "type": "boolean"
+        }
+    }
+}

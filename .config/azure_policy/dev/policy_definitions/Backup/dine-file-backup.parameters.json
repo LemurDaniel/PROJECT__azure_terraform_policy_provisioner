@@ -1,0 +1,42 @@
+{
+    "description": "Enforce backup of all storage account containers by backing them up to an existing central recovery services vault in the same location and subscription as the virtual machine. Doing this is useful when there is a central team in your organization managing backups for all resources in a subscription. You can optionally include virtual machines containing a specified tag to control the scope of assignment. See https://aka.ms/AzureVMCentralBackupIncludeTag.",
+    "mode": "All",
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "defaultValue": "auditIfNotExist"
+        },
+        "vaultLocation": {
+            "type": "String",
+            "defaultValue": "westeurope"
+        },
+        "vaultResourceGroupName": {
+            "type": "String",
+            "defaultValue": ""
+        },
+        "vaultName": {
+            "type": "String",
+            "defaultValue": ""
+        },
+        "inclusionTagName": {
+            "type": "String",
+            "defaultValue": ""
+        },
+        "backupTagNameFilesharesList": {
+            "type": "String",
+            "defaultValue": ""
+        },
+        "backupTagNameFileEncoding": {
+            "type": "String",
+            "defaultValue": ""
+        },
+        "exclusionTagValue": {
+            "type": "String",
+            "defaultValue": "None"
+        },
+        "allowedInclusionTagValues": {
+            "type": "Array",
+            "defaultValue": []
+        }
+    }
+}

@@ -1,6 +1,7 @@
 {
     "displayName": "deny-gov-cia",
     "description": "",
+    "mode": "All",
     "parameters": {
         "effect": {
             "type": "string"

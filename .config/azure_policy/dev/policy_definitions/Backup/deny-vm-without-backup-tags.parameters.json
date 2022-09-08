@@ -1,0 +1,29 @@
+{
+    "displayName": "deny-vm-without-mandatory-tags",
+    "description": "This policy denies creation of virtual machines without mandatory tags.",
+    "mode": "Indexed",
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "Audit",
+                "Deny",
+                "Disabled"
+            ],
+            "defaultValue": "Audit"
+        },
+        "excludedVmNamePatterns": {
+            "type": "Array",
+            "metadata": {},
+            "defaultValue": []
+        },
+        "backupTagNameVm": {
+            "type": "String",
+            "defaultValue": ""
+        }
+    }
+}

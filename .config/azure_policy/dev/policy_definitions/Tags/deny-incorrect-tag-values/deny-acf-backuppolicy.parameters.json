@@ -1,14 +1,18 @@
 {
     "displayName": "deny-acf-backup-policy.",
+    "mode": "All",
     "description": "",
     "parameters": {
         "effect": {
             "type": "string"
         },
+        "inlusionTagName": {
+            "type": "string"
+        },
         "defaultExclusionTagValue": {
             "type": "string"
         },
-        "listOfAllowed_acfBackupPolicyVm_patterns": {
+        "listOfAllowed_acfBackupPolicy_patterns": {
             "type": "Array"
         }
     }

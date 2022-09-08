@@ -32,21 +32,6 @@
         "effect": "Deny"
       },
       "not_scopes": []
-    },
-    {
-      "enabled": true,
-      "associated_policy": "deny-without-mandatory-tags",
-      "assignment_name": "deny-wo-man-tags",
-      "parameters": {
-        "effect": "Deny",
-        "ExcludedVmNamePatterns": [
-          "Preparati*"
-        ],
-        "ExcludedResourceScopes": []
-      },
-      "not_scopes": [
-        "/providers/Microsoft.Management/managementGroups/sandbox-dev"
-      ]
     }
   ]
 }

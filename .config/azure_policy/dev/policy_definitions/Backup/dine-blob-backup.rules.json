@@ -1,0 +1,132 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "like": "Microsoft.Storage/storageAccounts"
+            },
+            {
+                "field": "location",
+                "equals": "[parameters('vaultLocation')]"
+            },
+            {
+                "field": "[concat('tags[', parameters('inclusionTagName'), ']')]",
+                "notEquals": "[parameters('exclusionTagValue')]"
+            },
+            {
+                "count": {
+                    "value": "[parameters('allowedInclusionTagValues')]",
+                    "where": {
+                        "allOf": [
+                            {
+                                "field": "[concat('tags[', parameters('inclusionTagName'), ']')]",
+                                "match": "[current()]"
+                            }
+                        ]
+                    }
+                },
+                "equals": 1
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+            "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            ],
+            "existenceScope": "resourceGroup",
+            "resourceGroupName": "[parameters('vaultResourceGroupName')]",
+            "type": "Microsoft.DataProtection/backupVaults/backupInstances",
+            "name": "[concat(parameters('vaultName'), '/', field('name'), '-backup-instance')]",
+            "existenceCondition": {
+                "field": "Microsoft.DataProtection/backupVaults/backupInstances/policyInfo.policyId",
+                "equals": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('vaultResourceGroupName'), '/providers/Microsoft.DataProtection/BackupVaults/', parameters('vaultName'), '/backupPolicies/', field(concat('tags[', parameters('inclusionTagName'), ']')) )]"
+            },
+            "deployment": {
+                "properties": {
+                    "mode": "incremental",
+                    "template": {
+                        "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                            "friendlyName": {
+                                "type": "String"
+                            },
+                            "objectType": {
+                                "type": "String"
+                            },
+                            "dataSourceInfo": {
+                                "type": "Object"
+                            },
+                            "dataSourceSetInfo": {
+                                "type": "Object"
+                            },
+                            "policyInfo": {
+                                "type": "Object"
+                            },
+                            "backupInstanceName": {
+                                "type": "String"
+                            }
+                        },
+                        "resources": [
+                            {
+                                "type": "Microsoft.DataProtection/backupVaults/backupInstances",
+                                "apiVersion": "2022-03-01",
+                                "name": "[parameters('backupInstanceName')]",
+                                "properties": {
+                                    "friendlyName": "[parameters('friendlyName')]",
+                                    "objectType": "[parameters('objectType')]",
+                                    "dataSourceSetInfo": "[parameters('dataSourceSetInfo')]",
+                                    "dataSourceInfo": "[parameters('dataSourceInfo')]",
+                                    "policyInfo": "[parameters('policyInfo')]"
+                                }
+                            }
+                        ]
+                    },
+                    "parameters": {
+                        "friendlyName": {
+                            "value": "[field('name')]"
+                        },
+                        "objectType": {
+                            "value": "BackupInstance"
+                        },
+                        "dataSourceInfo": {
+                            "value": {
+                                "objectType": "Datasource",
+                                "resourceID": "[field('id')]",
+                                "resourceName": "[field('name')]",
+                                "resourceType": "Microsoft.Storage/storageAccounts",
+                                "resourceLocation": "[parameters('vaultLocation')]",
+                                "resourceUri": "[field('id')]",
+                                "datasourceType": "Microsoft.Storage/storageAccounts/blobServices",
+                                "resourceProperties": null
+                            }
+                        },
+                        "dataSourceSetInfo": {
+                            "value": {
+                                "objectType": "DatasourceSet",
+                                "resourceID": "[field('id')]",
+                                "resourceName": "[field('name')]",
+                                "resourceType": "Microsoft.Storage/storageAccounts",
+                                "resourceLocation": "[parameters('vaultLocation')]",
+                                "resourceUri": "[field('id')]",
+                                "datasourceType": "Microsoft.Storage/storageAccounts/blobServices",
+                                "resourceProperties": null
+                            }
+                        },
+                        "policyInfo": {
+                            "value": {
+                                "policyId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('vaultResourceGroupName'), '/providers/Microsoft.DataProtection/BackupVaults/', parameters('vaultName'), '/backupPolicies/', field(concat('tags[', parameters('inclusionTagName'), ']')) )]",
+                                "policyVersion": ""
+                            }
+                        },
+                        "backupInstanceName": {
+                            "value": "[concat(parameters('vaultName'), '/', field('name'), '-backup-instance')]"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

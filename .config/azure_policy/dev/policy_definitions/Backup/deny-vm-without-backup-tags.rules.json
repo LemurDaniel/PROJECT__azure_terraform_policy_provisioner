@@ -1,0 +1,38 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "count": {
+                    "value": "[parameters('excludedVmNamePatterns')]",
+                    "name": "pattern",
+                    "where": {
+                        "field": "name",
+                        "like": "[current('pattern')]"
+                    }
+                },
+                "equals": 0
+            },
+            {
+                "field": "type",
+                "equals": "Microsoft.Compute/virtualMachines"
+            },
+            {
+                "not": {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.publisher",
+                    "equals": "microsoft-aks"
+                }
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "[concat('tags[', parameters('backupTagNameVm'), ']')]",
+                        "exists": false
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

@@ -1,0 +1,161 @@
+[
+    {
+        "policyDefinitionName": "dine-blob-backup",
+        "policyReferenceId": "dine-blob-backup",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effectDine')]"
+            },
+            "vaultLocation": {
+                "value": "[parameters('Location')]"
+            },
+            "vaultResourceGroupName": {
+                "value": "[parameters('resourceGroupBV')]"
+            },
+            "vaultName": {
+                "value": "[parameters('vaultNameBV')]"
+            },
+            "inclusionTagName": {
+                "value": "[parameters('backupTagNameBlob')]"
+            },
+            "exclusionTagValue": {
+                "value": "[parameters('defaultExclusionTagValue')]"
+            },
+            "allowedInclusionTagValues": {
+                "value": "[parameters('listOfAllowed_acfBackupPolicyBlob_patterns')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "dine-file-backup",
+        "policyReferenceId": "dine-file-backup",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effectDine')]"
+            },
+            "vaultLocation": {
+                "value": "[parameters('Location')]"
+            },
+            "vaultResourceGroupName": {
+                "value": "[parameters('resourceGroupRSV')]"
+            },
+            "vaultName": {
+                "value": "[parameters('vaultNameRSV')]"
+            },
+            "inclusionTagName": {
+                "value": "[parameters('backupTagNameFiles')]"
+            },
+            "backupTagNameFilesharesList": {
+                "value": "[parameters('backupTagNameFilesharesList')]"
+            },
+            "backupTagNameFileEncoding": {
+                "value": "[parameters('backupTagNameFileEncoding')]"
+            },
+            "exclusionTagValue": {
+                "value": "[parameters('defaultExclusionTagValue')]"
+            },
+            "allowedInclusionTagValues": {
+                "value": "[parameters('listOfAllowed_acfBackupPolicyFiles_patterns')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "dine-st-backup-resourcelock",
+        "policyReferenceId": "dine-st-backup-resourcelock-blob",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effectDine')]"
+            },
+            "backupTagNameBlob": {
+                "value": "[parameters('backupTagNameBlob')]"
+            },
+            "backupTagValuesBlob": {
+                "value": "[parameters('listOfAllowed_acfBackupPolicyBlob_patterns')]"
+            },
+            "resourceLockName": {
+                "value": "AzureBackupProtectionLock"
+            },
+            "ExcludedResourceScopes": {
+                "value": "[parameters('ExcludedResourceScopes')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-st-blobbackup-not-grs",
+        "policyReferenceId": "deny-st-blobbackup-not-grs",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effectDeny')]"
+            },
+            "enableEnforceGRS": {
+                "value": "[parameters('enableEnforceGRS')]"
+            },
+            "inclusionTagName": {
+                "value": "[parameters('backupTagNameBlob')]"
+            },
+            "exclusionTagValue": {
+                "value": "[parameters('defaultExclusionTagValue')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-st-without-backup-tags",
+        "policyReferenceId": "deny-st-without-backup-tags",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effectDeny')]"
+            },
+            "enableEnforceFileTags": {
+                "value": "[parameters('enableEnforceFileTags')]"
+            },
+            "backupTagNameBlob": {
+                "value": "[parameters('backupTagNameBlob')]"
+            },
+            "backupTagNameFiles": {
+                "value": "[parameters('backupTagNameFiles')]"
+            },
+            "backupTagNameFilesharesList": {
+                "value": "[parameters('backupTagNameFilesharesList')]"
+            },
+            "ExcludedResourceScopes": {
+                "value": "[parameters('ExcludedResourceScopes')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-acf-backuppolicy",
+        "policyReferenceId": "deny-acf-backuppolicy-blob",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effectDeny')]"
+            },
+            "inlusionTagName": {
+                "value": "[parameters('backupTagNameBlob')]"
+            },
+            "defaultExclusionTagValue": {
+                "value": "[parameters('defaultExclusionTagValue')]"
+            },
+            "listOfAllowed_acfBackupPolicy_patterns": {
+                "value": "[parameters('listOfAllowed_acfBackupPolicyBlob_patterns')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-acf-backuppolicy",
+        "policyReferenceId": "deny-acf-backuppolicy-files",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effectDeny')]"
+            },
+            "inlusionTagName": {
+                "value": "[parameters('backupTagNameFiles')]"
+            },
+            "defaultExclusionTagValue": {
+                "value": "[parameters('defaultExclusionTagValue')]"
+            },
+            "listOfAllowed_acfBackupPolicy_patterns": {
+                "value": "[parameters('listOfAllowed_acfBackupPolicyFiles_patterns')]"
+            }
+        }
+    }
+]
