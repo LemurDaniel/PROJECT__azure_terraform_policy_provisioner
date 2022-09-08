@@ -1,7 +1,65 @@
 {
   "App Service": [],
   "Automation": [],
-  "Backup": [],
+  "Backup": [
+    {
+      "enabled": true,
+      "associated_policy": "dine-vm-backup-set",
+      "assignment_name": "dine-vm-backup-euwe",
+      "parameters": {
+        "effectDeny": "Deny",
+        "effectDine": "DeployIfNotExists",
+        "location": "westeurope",
+        "resourceGroupRSV": "rg-recovery-dev-001",
+        "vaultNameRSV": "rsv-corpbackup-dev-001",
+        "backupTagNameVm": "acfBackupPolicyVm",
+        "defaultExclusionTagValue": "$[single_injected_value]",
+        "listOfAllowed_acfBackupPolicyVm_patterns": [
+          "Bp#Vm01y",
+          "Bp#Vm02y",
+          "Bp#Vm02w",
+          "Bp#Vm26w",
+          "$[list_injected_values]"
+        ]
+      },
+      "not_scopes": []
+    },
+    {
+      "enabled": true,
+      "associated_policy": "dine-st-backup-set",
+      "assignment_name": "dine-st-backup-euwe",
+      "parameters": {
+        "effectDeny": "Deny",
+        "effectDine": "DeployIfNotExists",
+        "location": "westeurope",
+        "enableEnforceGRS": false,
+        "enableEnforceFileTags": false,
+        "resourceGroupBV": "rg-backup-dev-001",
+        "vaultNameBV": "bv-corpbackup-dev-001",
+        "resourceGroupRSV": "rg-recovery-dev-001",
+        "vaultNameRSV": "rsv-corpbackup-dev-001",
+        "backupTagNameBlob": "acfBackupPolicyBlob",
+        "backupTagNameFiles": "acfBackupPolicyFiles",
+        "backupTagNameFileEncoding": "acfBackupPolicyFilesEncoding",
+        "backupTagNameFilesharesList": "acfBackupPolicyFileShares",
+        "defaultExclusionTagValue": "None",
+        "listOfAllowed_acfBackupPolicyBlob_patterns": [
+          "Bp#Blob26w",
+          "Bp#Blob02w",
+          "Bp#Blob01y"
+        ],
+        "listOfAllowed_acfBackupPolicyFiles_patterns": [
+          "Bp#Files26w",
+          "Bp#Files01w",
+          "Bp#Files01y",
+          "Bp#Files02y"
+        ]
+      },
+      "not_scopes": [
+        "/providers/Microsoft.Management/managementGroups/sandbox-dev"
+      ]
+    }
+  ],
   "Compute": [],
   "Data Lake": [],
   "General": [],

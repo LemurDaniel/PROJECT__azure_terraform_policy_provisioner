@@ -15,5 +15,38 @@
   "Security Center": [],
   "SQL": [],
   "Storage": [],
-  "Tags": []
+  "Tags": [
+      {
+        "enabled": true,
+        "associated_policy": "inherit-tags",
+        "assignment_name": "inherit-tags",
+        "managedIdentity": "SystemAssigned",
+        "parameters": {},
+        "not_scopes": []
+      },
+      {
+        "enabled": true,
+        "associated_policy": "deny-wrong-tag-values",
+        "assignment_name": "deny-wrong-tag-values",
+        "parameters": {
+          "effect": "Deny"
+        },
+        "not_scopes": []
+      },
+      {
+        "enabled": true,
+        "associated_policy": "deny-without-mandatory-tags",
+        "assignment_name": "deny-wo-man-tags",
+        "parameters": {
+          "effect": "Deny",
+          "ExcludedVmNamePatterns": [
+            "Preparati*"
+          ],
+          "ExcludedResourceScopes": []
+        },
+        "not_scopes": [
+          "/providers/Microsoft.Management/managementGroups/sandbox-dev"
+        ]
+      }
+  ]
 }

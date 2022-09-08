@@ -30,17 +30,20 @@ module "policy_provisioner" {
   default_assignment_location    = "westeurope"
 
   mangagement_group_scopes = [
-    azurerm_management_group.root.display_name
+    azurerm_management_group.root.display_name,
+    azurerm_management_group.management.display_name,
+    azurerm_management_group.solution.display_name,
+    azurerm_management_group.sandbox.display_name
   ]
 
 
   policy_injected_variables = {
     single_injected_value = "This is inserted dynamically"
     list_injected_values = [
-      "This values are inserted dynamically",
-      "This values are inserted dynamically",
-      "This values are inserted dynamically",
-      "This values are inserted dynamically"
+      "This values are inserted dynamically1",
+      "This values are inserted dynamically2",
+      "This values are inserted dynamically3",
+      "This values are inserted dynamically4"
     ]
   }
 
