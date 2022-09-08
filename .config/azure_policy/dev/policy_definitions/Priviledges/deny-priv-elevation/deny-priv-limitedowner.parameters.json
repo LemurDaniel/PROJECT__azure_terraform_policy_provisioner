@@ -1,0 +1,29 @@
+{
+    "displayName": "deny-priv-limitedowner",
+    "description": "Adds or replaces the govBilling tag and value from the parent resource group when any resource is created or updated. Existing resources can be remediated by triggering a remediation task.",
+    "mode": "All",
+    "parameters": {
+        "effect": {
+            "type": "string"
+        },
+        "roleDefinitionId": {
+            "type": "string"
+        },
+        "principalTypes": {
+            "type": "Array",
+            "defaultValue": []
+        },
+        "resourceIdExclusions": {
+            "type": "Array",
+            "defaultValue": []
+        },
+        "listOfPrincipalIdExceptions": {
+            "type": "Array",
+            "defaultValue": []
+        },
+        "listOfAppzoneSubscriptions": {
+            "type": "Array",
+            "defaultValue": []
+        }
+    }
+}

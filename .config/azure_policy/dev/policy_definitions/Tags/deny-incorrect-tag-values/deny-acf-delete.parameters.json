@@ -1,0 +1,9 @@
+{
+    "displayName": "deny-acf-delete",
+    "description": "",
+    "parameters": {
+        "effect": {
+            "type": "string"
+        }
+    }
+}

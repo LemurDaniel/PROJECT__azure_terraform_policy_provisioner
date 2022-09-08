@@ -1,0 +1,15 @@
+{
+    "displayName": "deny-acf-vmoperatinghours",
+    "description": "",
+    "parameters": {
+        "effect": {
+            "type": "string"
+        },
+        "listOfAllowed_TimeZone_values": {
+            "type": "Array"
+        },
+        "listOfAllowed_validWeekDay_values": {
+            "type": "Array"
+        }
+    }
+}

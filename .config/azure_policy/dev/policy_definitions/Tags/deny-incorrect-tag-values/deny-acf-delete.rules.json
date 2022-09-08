@@ -1,0 +1,29 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "tags['acfDelete']",
+                "exists": "true"
+            },
+            {
+                "value": "[resourceGroup().name]",
+                "notLike": "AzureBackupRG*"
+            },
+            {
+                "anyOf": [
+                    {
+                        "value": "[length(field('tags[acfDelete]'))]",
+                        "notEquals": 10
+                    },
+                    {
+                        "field": "tags['acfDelete']",
+                        "notMatch": "####-##-##"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

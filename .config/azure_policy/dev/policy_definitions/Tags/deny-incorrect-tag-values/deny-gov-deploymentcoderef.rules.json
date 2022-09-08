@@ -1,0 +1,31 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "tags['govDeploymentCodeRef']",
+                "exists": true
+            },
+            {
+                "value": "[resourceGroup().name]",
+                "notLike": "AzureBackupRG*"
+            },
+            {
+                "field": "tags['govDeploymentCodeRef']",
+                "notEquals": "[parameters('defaultExclusionTagValue')]"
+            },
+            {
+                "count": {
+                    "value": "[parameters('listOfAllowed_DeploymentURL_patterns')]",
+                    "where": {
+                        "field": "tags['govDeploymentCodeRef']",
+                        "like": "[current()]"
+                    }
+                },
+                "equals": 0
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

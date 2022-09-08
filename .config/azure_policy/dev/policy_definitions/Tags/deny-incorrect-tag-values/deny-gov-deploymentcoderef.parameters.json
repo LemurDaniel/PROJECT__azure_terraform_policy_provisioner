@@ -1,0 +1,15 @@
+{
+    "displayName": "deny-gov-deploymentcoderef",
+    "description": "",
+    "parameters": {
+        "effect": {
+            "type": "string"
+        },
+        "defaultExclusionTagValue": {
+            "type": "string"
+        },
+        "listOfAllowed_DeploymentURL_patterns": {
+            "type": "Array"
+        }
+    }
+}

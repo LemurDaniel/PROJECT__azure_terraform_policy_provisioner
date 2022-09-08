@@ -1,0 +1,134 @@
+{
+	"if": {
+		"allOf": [
+			{
+				"field": "type",
+				"Equals": "Microsoft.Compute/virtualMachines"
+			},
+			{
+				"field": "tags['acfVmOperatingHours']",
+				"exists": "true"
+			},
+			{
+				"field": "tags['acfVmOperatingHours']",
+				"notEquals": "24h7d"
+			},
+			{
+				"anyOf": [
+					{
+						"value": "[length(split(field('tags[acfVmOperatingHours]'), ';'))]",
+						"notEquals": 6
+					},
+					{
+						"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 3),  split(field('tags[acfVmOperatingHours]'), ';')[2],  'ELSE_VALUE' )]",
+						"notIn": "[parameters('listOfAllowed_TimeZone_values')]"
+					},
+					{
+						"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 6),  split(field('tags[acfVmOperatingHours]'), ';')[5],  'ELSE_VALUE' )]",
+						"notIn": [
+							"Enabled",
+							"Disabled"
+						]
+					},
+					{
+						"allOf": [
+							{
+								"value": "INFO: Starttime-check",
+								"notEquals": 0
+							},
+							{
+								"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 1),  split(field('tags[acfVmOperatingHours]'), ';')[0],  'ELSE_VALUE' )]",
+								"notEquals": "None"
+							},
+							{
+								"anyOf": [
+									{
+										"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 1),  length(split(field('tags[acfVmOperatingHours]'), ';')[0]),  'ELSE_VALUE' )]",
+										"notEquals": 5
+									},
+									{
+										"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 1),  split(field('tags[acfVmOperatingHours]'), ';')[0],  'ELSE_VALUE' ) ]",
+										"notMatch": "##:##"
+									}
+								]
+							}
+						]
+					},
+					{
+						"allOf": [
+							{
+								"value": "INFO: Stoptime-check",
+								"notEquals": 0
+							},
+							{
+								"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 2),  split(field('tags[acfVmOperatingHours]'), ';')[1],  'ELSE_VALUE' )]",
+								"notEquals": "None"
+							},
+							{
+								"anyOf": [
+									{
+										"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 2),  length(split(field('tags[acfVmOperatingHours]'), ';')[1]),  'ELSE_VALUE' )]",
+										"notEquals": 5
+									},
+									{
+										"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 2),  split(field('tags[acfVmOperatingHours]'), ';')[1],  'ELSE_VALUE' ) ]",
+										"notMatch": "##:##"
+									}
+								]
+							}
+						]
+					},
+					{
+						"allOf": [
+							{
+								"value": "INFO: Priority-check",
+								"notEquals": 0
+							},
+							{
+								"anyOf": [
+									{
+										"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 5),  length(split(field('tags[acfVmOperatingHours]'), ';')[4]),  'ELSE_VALUE' )]",
+										"notEquals": 1
+									},
+									{
+										"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 5),  split(field('tags[acfVmOperatingHours]'), ';')[4],  'ELSE_VALUE' )]",
+										"notMatch": "#"
+									}
+								]
+							}
+						]
+					},
+					{
+						"allOf": [
+							{
+								"value": "INFO: ValidWeekdays-check | First checks if array entries are correct, second checks for duplicate entries. (All of the inline ifs are required to prevent: ((Expression Error: cannot be evaluated because array index '#' is outside bounds)))",
+								"notEquals": 0
+							},
+							{
+								"anyOf": [
+									{
+										"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 4),  length(intersection(  split(split(field('tags[acfVmOperatingHours]'), ';')[3], '-'), parameters('listOfAllowed_validWeekDay_values')  )),  'ELSE_VALUE' )]",
+										"notEquals": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 4),  length( split(split(field('tags[acfVmOperatingHours]'), ';')[3], '-') ),  'ELSE_VALUE' )]"
+									},
+									{
+										"count": {
+											"value": "[parameters('listOfAllowed_validWeekDay_values')]",
+											"where": {
+												"value": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 4),  indexOf( split(field('tags[acfVmOperatingHours]'), ';')[3], current() ),  'ELSE_VALUE' )]",
+												"notEquals": "[if( greaterOrEquals(length(split(field('tags[acfVmOperatingHours]'), ';')), 4),  lastIndexOf( split(field('tags[acfVmOperatingHours]'), ';')[3], current() ),  'ELSE_VALUE' )]"
+											}
+										},
+										"greater": 0
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"then": {
+		"effect": "[parameters('effect')]"
+	}
+}

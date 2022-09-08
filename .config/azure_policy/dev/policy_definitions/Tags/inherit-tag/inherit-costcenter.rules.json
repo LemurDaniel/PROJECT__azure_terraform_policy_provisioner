@@ -1,0 +1,42 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "notIn": [
+                    "Microsoft.Compute/virtualMachines/extensions",
+                    "microsoft.insights/workbooks",
+                    "Microsoft.Network/firewallPolicies",
+                    "Microsoft.OperationsManagement/solutions"
+                ]
+            },
+            {
+                "field": "name",
+                "notLike": "AzureBackupRG_*"
+            },
+            {
+                "value": "[length(resourceGroup().tags[parameters('tagName')])]",
+                "notEquals": 0
+            },
+            {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "notEquals": "[resourceGroup().tags[parameters('tagName')]]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "modify",
+        "details": {
+            "roleDefinitionIds": [
+                "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            ],
+            "operations": [
+                {
+                    "operation": "addOrReplace",
+                    "field": "[concat('tags[', parameters('tagName'), ']')]",
+                    "value": "[resourceGroup().tags[parameters('tagName')]]"
+                }
+            ]
+        }
+    }
+}

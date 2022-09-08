@@ -1,0 +1,65 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+            },
+            {
+                "field": "name",
+                "notLike": "AzureBackupRG_*"
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "tags['govAccountable']",
+                        "exists": false
+                    },
+                    {
+                        "field": "tags['govResponsible']",
+                        "exists": false
+                    },
+                    {
+                        "field": "tags['govBusinessCriticality']",
+                        "exists": false
+                    },
+                    {
+                        "field": "tags['govBilling']",
+                        "exists": false
+                    },
+                    {
+                        "field": "tags['govCompany']",
+                        "exists": false
+                    },
+                    {
+                        "field": "tags['govCostCenter']",
+                        "exists": false
+                    },
+                    {
+                        "field": "tags['govEnvironment']",
+                        "exists": false
+                    },
+                    {
+                        "field": "tags['govDeploymentCodeRef']",
+                        "exists": false
+                    },
+                    {
+                        "field": "tags['govDeploymentType']",
+                        "exists": false
+                    },
+                    {
+                        "field": "tags['govWorkloadDescription']",
+                        "exists": false
+                    },
+                    {
+                        "field": "tags['govWorkloadName']",
+                        "exists": false
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}

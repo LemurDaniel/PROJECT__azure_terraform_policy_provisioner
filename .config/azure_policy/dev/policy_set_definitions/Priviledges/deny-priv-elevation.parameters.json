@@ -1,0 +1,42 @@
+{
+    "displayName": "deny-priv-elevation",
+    "description": "This initiative checks several tag values for correctness.",
+    "parameters": {
+        "effect": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Effect of policy.",
+                "description": "Specify the effect of the policy."
+            },
+            "defaultValue": "audit"
+        },
+        "roleDefinitionId_owner": {
+            "type": "string"
+        },
+        "roleDefinitionId_acfLimitedOwner": {
+            "type": "string"
+        },
+        "roleDefinitionId_userAccessadmin": {
+            "type": "string"
+        },
+        "roleDefinitionId_contributor": {
+            "type": "string"
+        },
+        "principalTypes": {
+            "type": "Array",
+            "defaultValue": []
+        },
+        "listOfPrincipalIdExceptions": {
+            "type": "Array",
+            "defaultValue": []
+        },
+        "resourceIdExclusions": {
+            "type": "Array",
+            "defaultValue": []
+        },
+        "listOfAppzoneSubscriptions": {
+            "type": "Array",
+            "defaultValue": []
+        }
+    }
+}

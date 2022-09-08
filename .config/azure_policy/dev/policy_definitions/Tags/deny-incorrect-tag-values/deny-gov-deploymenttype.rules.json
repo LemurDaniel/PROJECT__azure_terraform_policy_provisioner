@@ -1,0 +1,21 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "[concat('tags[',parameters('tagName'),']')]",
+                "exists": true
+            },
+            {
+                "value": "[resourceGroup().name]",
+                "notLike": "AzureBackupRG*"
+            },
+            {
+                "field": "[concat('tags[',parameters('tagName'),']')]",
+                "notIn": "[parameters('listOfAllowed_values')]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

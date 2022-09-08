@@ -1,0 +1,83 @@
+[
+    {
+        "policyDefinitionName": "inherit-accountable",
+        "policyReferenceId": "inherit-accountable",
+        "parameters": {
+            "tagName": {
+                "value": "govAccountable"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "inherit-responsible",
+        "policyReferenceId": "inherit-responsible",
+        "parameters": {
+            "tagName": {
+                "value": "govResponsible"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "inherit-businesscritical",
+        "policyReferenceId": "inherit-businesscritical",
+        "parameters": {
+            "tagName": {
+                "value": "govBusinesscritical"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "inherit-billing",
+        "policyReferenceId": "inherit-billing",
+        "parameters": {
+            "tagName": {
+                "value": "govBilling"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "inherit-costcenter",
+        "policyReferenceId": "inherit-costcenter",
+        "parameters": {
+            "tagName": {
+                "value": "govCostcenter"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "inherit-company",
+        "policyReferenceId": "inherit-company",
+        "parameters": {
+            "tagName": {
+                "value": "govCompany"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "inherit-environment",
+        "policyReferenceId": "inherit-environment",
+        "parameters": {
+            "tagName": {
+                "value": "govEnvironment"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "inherit-workloaddescript",
+        "policyReferenceId": "inherit-workloaddescript",
+        "parameters": {
+            "tagName": {
+                "value": "govWorkloaddescription"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "inherit-workloadname",
+        "policyReferenceId": "inherit-workloadname",
+        "parameters": {
+            "tagName": {
+                "value": "govWorkloadname"
+            }
+        }
+    }
+]

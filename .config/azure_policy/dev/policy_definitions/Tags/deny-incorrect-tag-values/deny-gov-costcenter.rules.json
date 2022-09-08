@@ -1,0 +1,53 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "tags['govCostCenter']",
+                "exists": "true"
+            },
+            {
+                "value": "[resourceGroup().name]",
+                "notLike": "AzureBackupRG*"
+            },
+            {
+                "anyOf": [
+                    {
+                        "allOf": [
+                            {
+                                "value": "INFO: IF govBilling = External THEN value = None",
+                                "notEquals": 0
+                            },
+                            {
+                                "field": "tags['govBilling']",
+                                "equals": "External"
+                            },
+                            {
+                                "field": "tags['govCostCenter']",
+                                "notEquals": "None"
+                            }
+                        ]
+                    },
+                    {
+                        "allOf": [
+                            {
+                                "value": "INFO: IF govBilling != External or not exists THEN value = Cost-Center-Number (must exist)",
+                                "notEquals": "0"
+                            },
+                            {
+                                "field": "tags['govBilling']",
+                                "notEquals": "External"
+                            },
+                            {
+                                "field": "tags['govCostCenter']",
+                                "exists": "false"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

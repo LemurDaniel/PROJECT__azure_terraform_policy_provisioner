@@ -1,0 +1,13 @@
+{
+    "displayName": "allow-vm-sku",
+    "description": "This policy allows you to specify what skus are allowed for storage accounts and virtual machines. (#{BUILDNUMBER}#)",
+    "assigmentName": "allow-vm-sku",
+    "parameters": {
+        "listOfAllowedSKUs": {
+            "type": "array",
+            "metadata": {
+                "strongType": "vmSKUs"
+            }
+        }
+    }
+}

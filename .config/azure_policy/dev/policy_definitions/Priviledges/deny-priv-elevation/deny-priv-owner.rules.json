@@ -1,0 +1,65 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Authorization/roleAssignments"
+            },
+            {
+                "field": "Microsoft.Authorization/roleAssignments/roleDefinitionId",
+                "contains": "[parameters('roleDefinitionId')]"
+            },
+            {
+                "field": "Microsoft.Authorization/roleAssignments/principalType",
+                "in": "[parameters('principalTypes')]"
+            },
+            {
+                "count": {
+                    "value": "[parameters('resourceIdExclusions')]",
+                    "where": {
+                        "allOf": [
+                            {
+                                "field": "id",
+                                "like": "[current()]"
+                            }
+                        ]
+                    }
+                },
+                "equals": 0
+            },
+            {
+                "count": {
+                    "value": "[parameters('listOfPrincipalIdExceptions')]",
+                    "where": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Authorization/roleAssignments/principalId",
+                                "like": "[split(current(),'|')[0]]"
+                            }
+                        ]
+                    }
+                },
+                "equals": 0
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "id",
+                        "notcontains": "resourceGroups"
+                    },
+                    {
+                        "value": "[length(split(field('id'), '/'))]",
+                        "greater": 5
+                    },
+                    {
+                        "value": "[subscription().displayName]",
+                        "notin": "[parameters('listOfAppzoneSubscriptions')]"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

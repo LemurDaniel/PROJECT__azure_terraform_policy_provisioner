@@ -1,0 +1,77 @@
+{
+    "displayName": "dine-vm-backup",
+    "description": "This policy creates a centralized Azure Recovery Services in the Subscription when the first VM with supported OS is deployed. It creates a backup policy and assigns the VM in to backup policy schedule.",
+    "assigmentName": "dine-vm-backup",
+    "parameters": {
+        "vaultResourceGroupName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Resource Group name for the centralized backup vault"
+            }
+        },
+        "vaultName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "vaultTags": {
+            "type": "object",
+            "defaultValue": {}
+        },
+        "vaultSku": {
+            "type": "string",
+            "defaultValue": "Standard",
+            "metadata": {
+                "description": "standard or RS0"
+            }
+        },
+        "policyName": {
+            "type": "string"
+        },
+        "scheduleRunTimes": {
+            "type": "string",
+            "defaultValue": "20:00:00",
+            "metadata": {
+                "description": "runtime in format of hh:mm:ss"
+            }
+        },
+        "timeZone": {
+            "type": "string"
+        },
+        "dailyRetentionDurationCount": {
+            "type": "integer"
+        },
+        "daysOfTheWeek": {
+            "type": "array"
+        },
+        "weeklyRetentionDurationCount": {
+            "type": "integer",
+            "metadata": {
+                "description": "Weekly backup retention"
+            }
+        },
+        
+        "monthsOfYear": {
+            "type": "array"
+        },
+        "retentionScheduleWeekly": {
+            "type": "object",
+            "defaultValue": null,
+            "metadata": {
+                "description": "Only retentionScheduleDaily or retentionScheduleWeekly must be defined"
+            }
+        },
+        "monthlyRetentionDurationCount": {
+            "type": "integer",
+            "metadata": {
+                "description": "Monthly backup retention"
+            }
+        },
+        "yearlyRetentionDurationCount": {
+            "type": "integer",
+            "metadata": {
+                "description": "Yearly backup retention"
+            }
+        }
+    }
+}

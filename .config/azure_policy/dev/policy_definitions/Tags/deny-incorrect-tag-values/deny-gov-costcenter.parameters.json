@@ -1,0 +1,9 @@
+{
+    "displayName": "deny-gov-costcenter",
+    "description": "",
+    "parameters": {
+        "effect": {
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "displayName": "deny-gov-cia",
+    "description": "",
+    "parameters": {
+        "effect": {
+            "type": "string"
+        },
+        "listOfAllowed_criticality_values": {
+            "type": "Array"
+        }
+    }
+}

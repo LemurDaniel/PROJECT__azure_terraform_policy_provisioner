@@ -1,0 +1,50 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "count": {
+                    "value": "[parameters('ExcludedVmNamePatterns')]",
+                    "name": "pattern",
+                    "where": {
+                        "field": "name",
+                        "like": "[current('pattern')]"
+                    }
+                },
+                "equals": 0
+            },
+            {
+                "field": "type",
+                "equals": "Microsoft.Compute/virtualMachines"
+            },
+            {
+                "not": {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.publisher",
+                    "equals": "microsoft-aks"
+                }
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "tags['acfVMUpdateSchedule']",
+                        "exists": "false"
+                    },
+                    {
+                        "field": "tags['vmPurpose']",
+                        "exists": "false"
+                    },
+                    {
+                        "field": "tags['acfVmOperatingHours']",
+                        "exists": "false"
+                    },
+                    {
+                        "field": "tags['acfBackupPolicyVm']",
+                        "exists": "false"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}

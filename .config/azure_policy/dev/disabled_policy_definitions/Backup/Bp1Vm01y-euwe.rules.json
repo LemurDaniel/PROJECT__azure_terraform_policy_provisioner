@@ -1,0 +1,203 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Compute/virtualMachines"
+            },
+            {
+                "field": "id",
+                "notContains": "/resourceGroups/databricks-rg-"
+            },
+            {
+                "field": "Microsoft.Compute/imagePublisher",
+                "notEquals": "azureopenshift"
+            },
+            {
+                "field": "Microsoft.Compute/imagePublisher",
+                "notEquals": "AzureDatabricks"
+            },
+            {
+                "field": "location",
+                "equals": "[parameters('vaultLocation')]"
+            },
+            {
+                "field": "[concat('tags[', parameters('inclusionTagName'), ']')]",
+                "like": "[parameters('inclusionTagValue')]"
+            },
+            {
+                "field": "[concat('tags[', parameters('inclusionTagName'), ']')]",
+                "notlike": "[parameters('exclusionTagValue')]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+            "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            ],
+            "existenceScope": "resourceGroup",
+            "resourceGroupName": "[parameters('vaultResourceGroupName')]",
+            "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems/",
+            "name": "[concat(parameters('vaultName'), '/Azure/iaasvmcontainer;iaasvmcontainerv2;', resourceGroup().name, ';', field('name'), '/vm;iaasvmcontainerv2;', resourceGroup().name,';', field('name'))]",
+            "existenceCondition": {
+                "field": "Microsoft.RecoveryServices/Vaults/backupFabrics/protectionContainers/protectedItems/policyId",
+                "equals": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('vaultResourceGroupName'), '/providers/Microsoft.RecoveryServices/vaults/', parameters('vaultName'), '/backupPolicies/', parameters('inclusionTagValue'))]"
+            },
+            "deployment": {
+                "properties": {
+                    "mode": "incremental",
+                    "template": {
+                        "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                            "vaultResourceGroupName": {
+                                "type": "String"
+                            },
+                            "vaultName": {
+                                "type": "String"
+                            },
+                            "inclusionTagName": {
+                                "type": "String"
+                            },
+                            "inclusionTagValue": {
+                                "type": "String"
+                            },
+                            "fabricName": {
+                                "type": "String"
+                            },
+                            "protectionContainers": {
+                                "type": "String"
+                            },
+                            "protectedItems": {
+                                "type": "String"
+                            },
+                            "backupPolicyId": {
+                                "type": "String"
+                            },
+                            "sourceResourceId": {
+                                "type": "String"
+                            }
+                        },
+                        "resources": [
+                            {
+                                "apiVersion": "2017-05-10",
+                                "name": "[concat('DeployProtection-',uniqueString(parameters('protectedItems')))]",
+                                "type": "Microsoft.Resources/deployments",
+                                "subscriptionId": "[concat (subscription().subscriptionId)]",
+                                "resourceGroup": "[parameters('vaultResourceGroupName')]",
+                                "properties": {
+                                    "mode": "Incremental",
+                                    "template": {
+                                        "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                        "contentVersion": "1.0.0.0",
+                                        "parameters": {
+                                            "vaultResourceGroupName": {
+                                                "type": "String"
+                                            },
+                                            "vaultName": {
+                                                "type": "String"
+                                            },
+                                            "inclusionTagName": {
+                                                "type": "String"
+                                            },
+                                            "inclusionTagValue": {
+                                                "type": "String"
+                                            },
+                                            "fabricName": {
+                                                "type": "String"
+                                            },
+                                            "protectionContainers": {
+                                                "type": "String"
+                                            },
+                                            "protectedItems": {
+                                                "type": "String"
+                                            },
+                                            "backupPolicyId": {
+                                                "type": "String"
+                                            },
+                                            "sourceResourceId": {
+                                                "type": "String"
+                                            }
+                                        },
+                                        "resources": [
+                                            {
+                                                "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
+                                                "name": "[concat(parameters('vaultName'), '/', parameters('fabricName'), '/', parameters('protectionContainers'), '/', parameters('protectedItems'))]",
+                                                "apiVersion": "2016-06-01",
+                                                "properties": {
+                                                    "protectedItemType": "Microsoft.Compute/virtualMachines",
+                                                    "policyId": "[parameters('backupPolicyId')]",
+                                                    "sourceResourceId": "[parameters('sourceResourceId')]"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "parameters": {
+                                        "vaultResourceGroupName": {
+                                            "value": "[parameters('vaultResourceGroupName')]"
+                                        },
+                                        "vaultName": {
+                                            "value": "[parameters('vaultName')]"
+                                        },
+                                        "inclusionTagName": {
+                                            "value": "[parameters('inclusionTagName')]"
+                                        },
+                                        "inclusionTagValue": {
+                                            "value": "[parameters('inclusionTagValue')]"
+                                        },
+                                        "fabricName": {
+                                            "value": "[parameters('fabricName')]"
+                                        },
+                                        "protectionContainers": {
+                                            "value": "[parameters('protectionContainers')]"
+                                        },
+                                        "protectedItems": {
+                                            "value": "[parameters('protectedItems')]"
+                                        },
+                                        "backupPolicyId": {
+                                            "value": "[parameters('backupPolicyId')]"
+                                        },
+                                        "sourceResourceId": {
+                                            "value": "[parameters('sourceResourceId')]"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "parameters": {
+                        "vaultResourceGroupName": {
+                            "value": "[parameters('vaultResourceGroupName')]"
+                        },
+                        "vaultName": {
+                            "value": "[parameters('vaultName')]"
+                        },
+                        "inclusionTagName": {
+                            "value": "[parameters('inclusionTagName')]"
+                        },
+                        "inclusionTagValue": {
+                            "value": "[parameters('inclusionTagValue')]"
+                        },
+                        "fabricName": {
+                            "value": "Azure"
+                        },
+                        "protectionContainers": {
+                            "value": "[concat('iaasvmcontainer;iaasvmcontainerv2;', resourceGroup().name, ';' ,field('name'))]"
+                        },
+                        "protectedItems": {
+                            "value": "[concat('vm;iaasvmcontainerv2;', resourceGroup().name, ';' ,field('name'))]"
+                        },
+                        "backupPolicyId": {
+                            "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('vaultResourceGroupName'), '/providers/Microsoft.RecoveryServices/vaults/', parameters('vaultName'), '/backupPolicies/', parameters('inclusionTagValue'))]"
+                        },
+                        "sourceResourceId": {
+                            "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Compute/virtualMachines/',field('name'))]"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

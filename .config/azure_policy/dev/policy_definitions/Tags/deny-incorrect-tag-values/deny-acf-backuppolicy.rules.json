@@ -1,0 +1,39 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "tags['acfBackupPolicyVm']",
+                "exists": "true"
+            },
+            {
+                "value": "[resourceGroup().name]",
+                "notLike": "AzureBackupRG*"
+            },
+            {
+                "field": "tags['acfBackupPolicyVm']",
+                "notEquals": "[parameters('defaultExclusionTagValue')]"
+            },
+            {
+                "count": {
+                    "value": "[parameters('listOfAllowed_acfBackupPolicyVm_patterns')]",
+                    "where": {
+                        "allOf": [
+                            {
+                                "value": "[length(field('tags[acfBackupPolicyVm]'))]",
+                                "equals": 8
+                            },
+                            {
+                                "field": "tags['acfBackupPolicyVm']",
+                                "match": "[current()]"
+                            }
+                        ]
+                    }
+                },
+                "equals": 0
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

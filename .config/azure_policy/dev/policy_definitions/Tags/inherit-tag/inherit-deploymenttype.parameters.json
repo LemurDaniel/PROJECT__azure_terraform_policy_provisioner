@@ -1,0 +1,14 @@
+{
+    "displayName": "inherit-deploymenttype",
+    "description": "Adds or replaces the govCompany tag and value from the parent resource group when any resource is created or updated. Existing resources can be remediated by triggering a remediation task.",
+    "mode": "Indexed",
+    "parameters": {
+        "tagName": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Tag Name",
+                "description": "Name of the tag, such as 'environment'"
+            }
+        }
+    }
+}

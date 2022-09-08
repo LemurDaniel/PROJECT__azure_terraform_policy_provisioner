@@ -1,0 +1,276 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Compute/virtualMachines"
+            },
+            {
+                "field": "tags.acfBackupOverride",
+                "exists": "false"
+            },
+            {
+                "field": "name",
+                "notLike": "vmccvad*"
+            }
+        ]
+    },
+    "then": {
+        "effect": "deployIfNotExists",
+        "details": {
+            "type": "Microsoft.RecoveryServices/backupprotecteditems",
+            "existenceCondition": {
+                "allOf": [
+                    {
+                        "field": "name",
+                        "like": "*"
+                    }
+                ]
+            },
+            "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            ],
+            "deploymentScope": "Subscription",
+            "deployment": {
+                "location": "westeurope",
+                "properties": {
+                    "mode": "incremental",
+                    "template": {
+                        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                            "vaultResourceGroupName": {
+                                "type": "string"
+                            },
+                            "vaultName": {
+                                "type": "string"
+                            },
+                            "policyName":{
+                                "type": "string"
+                            },
+                            "vmName": {
+                                "type": "string"
+                            },
+                            "vmResourceGroupName": {
+                                "type": "string"
+                            },
+                            "vmResourceGroupLocation": {
+                                "type": "string"
+                            },
+                            "vaultTags": {
+                                "type": "object"
+                            },
+                            "vaultSku": {
+                                "type": "string"
+                            },
+                            "scheduleRunTimes": {
+                                "type": "string"
+                            },
+                            "timeZone": {
+                                "type": "string"
+                            },
+                            "dailyRetentionDurationCount": {
+                                "type": "int"
+                            },
+                            "daysOfTheWeek": {
+                                "type": "array"
+                            },
+                            "weeklyRetentionDurationCount": {
+                                "type": "int"
+                            },
+                            "monthsOfYear": {
+                                "type": "array"
+                            },
+                            "retentionScheduleWeekly": {
+                                "type": "object"
+                            },
+                            "monthlyRetentionDurationCount": {
+                                "type": "int"
+                            },
+                            "yearlyRetentionDurationCount": {
+                                "type": "int"
+                            }
+                        },
+                        "variables": {
+                            "BackupIntentConcat": "[concat('/Azure/vm;iaasvmcontainerv2;', parameters('vmResourceGroupName'), ';', parameters('vmName'))]"
+                        },
+                        "resources": [
+                            {
+                                "apiVersion": "2019-10-01",
+                                "type": "Microsoft.Resources/resourceGroups",
+                                "name": "[parameters('vaultResourceGroupName')]",
+                                "location": "[parameters('vmResourceGroupLocation')]",
+                                "tags": "[parameters('vaultTags')]",
+                                "properties": {}
+                            },
+                            {
+                                "apiVersion": "2017-05-10",
+                                "name": "[concat(parameters('vmName'), '-backupIntent')]",
+                                "type": "Microsoft.Resources/deployments",
+                                "resourceGroup": "[parameters('vaultResourceGroupName')]",
+                                "subscription": "[subscription().id]",
+                                "dependsOn": [
+                                    "[parameters('vaultResourceGroupName')]"
+                                ],
+                                "properties": {
+                                    "mode": "Incremental",
+                                    "template": {
+                                        "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                        "contentVersion": "1.0.0.0",
+                                        "resources": [
+                                            {
+                                                "apiVersion": "2016-06-01",
+                                                "type": "Microsoft.RecoveryServices/vaults",
+                                                "name": "[parameters('vaultName')]",
+                                                "location": "[parameters('vmResourceGroupLocation')]",
+                                                "tags": "[parameters('vaultTags')]",
+                                                "properties": {},
+                                                "sku": {
+                                                    "name": "[parameters('vaultSku')]"
+                                                }
+                                            },
+                                            {
+                                                "apiVersion": "2016-12-01",
+                                                "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
+                                                "name": "[concat(parameters('vaultName'), '/', parameters('policyName'))]",
+                                                "location": "[parameters('vmResourceGroupLocation')]",
+                                                "dependsOn": [
+                                                    "[parameters('vaultName')]"
+                                                ],
+                                                "tags": {},
+                                                "properties": {
+                                                    "backupManagementType": "AzureIaasVM",
+                                                    "instantRpRetentionRangeInDays": 5,
+                                                    "timeZone": "[parameters('timeZone')]",
+                                                    "schedulePolicy": {
+                                                        "schedulePolicyType": "SimpleSchedulePolicy",
+                                                        "scheduleRunFrequency": "Daily",
+                                                        "scheduleRunTimes": [
+                                                            "[concat('2020-01-01T', parameters('scheduleRunTimes'), 'Z')]"
+                                                        ],
+                                                        "scheduleWeeklyFrequency": 0
+                                                    },
+                                                    "retentionPolicy": {
+                                                        "retentionPolicyType": "LongTermRetentionPolicy",
+                                                        "dailySchedule": {
+                                                            "retentionTimes": [
+                                                                "[concat('2020-01-01T', parameters('scheduleRunTimes'), 'Z')]"
+                                                            ],
+                                                            "retentionDuration": {
+                                                                "count": "[int(parameters('dailyRetentionDurationCount'))]",
+                                                                "durationType": "Days"
+                                                            }
+                                                        },
+                                                        "weeklySchedule": {
+                                                            "daysOfTheWeek": "[parameters('daysOfTheWeek')]",
+                                                            "retentionTimes": [
+                                                                "[concat('2020-01-01T', parameters('scheduleRunTimes'), 'Z')]"
+                                                            ],
+                                                            "retentionDuration": {
+                                                              "count": "[parameters('weeklyRetentionDurationCount')]",
+                                                              "durationType": "Weeks"
+                                                            }
+                                                          },
+                                                        "monthlySchedule": {
+                                                            "retentionScheduleFormatType": "Weekly",
+                                                            "retentionScheduleWeekly": "[parameters('retentionScheduleWeekly')]",
+                                                            "retentionTimes": [
+                                                                "[concat('2020-01-01T', parameters('scheduleRunTimes'), 'Z')]"
+                                                            ],
+                                                            "retentionDuration": {
+                                                              "count": "[parameters('monthlyRetentionDurationCount')]",
+                                                              "durationType": "Months"
+                                                            }
+                                                          },
+                                                        "yearlySchedule": {
+                                                            "retentionScheduleFormatType": "Weekly",
+                                                            "monthsOfYear": "[parameters('monthsOfYear')]",
+                                                            "retentionScheduleWeekly": "[parameters('retentionScheduleWeekly')]",
+                                                            "retentionTimes": [
+                                                                "[concat('2020-01-01T', parameters('scheduleRunTimes'), 'Z')]"
+                                                            ],
+                                                            "retentionDuration": {
+                                                              "count": "[parameters('yearlyRetentionDurationCount')]",
+                                                              "durationType": "Years"
+                                                            }
+                                                          }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "name": "[concat(parameters('vaultName'), variables('BackupIntentConcat'))]",
+                                                "apiVersion": "2017-07-01",
+                                                "type": "Microsoft.RecoveryServices/vaults/backupFabrics/backupProtectionIntent",
+                                                "dependsOn": [
+                                                    "[parameters('policyName')]"
+                                                ],
+                                                "properties": {
+                                                    "protectionIntentItemType": "AzureResourceItem",
+                                                    "policyId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('vaultResourceGroupName'), '/providers/Microsoft.RecoveryServices/vaults/', parameters('vaultName'), '/backuppolicies/', parameters('policyName'))]",
+                                                    "sourceResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('vmResourceGroupName'), '/providers/Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "parameters": {
+                        "vaultResourceGroupName": {
+                            "value": "[parameters('vaultResourceGroupName')]"
+                        },
+                        "vaultName": {
+                            "value": "[parameters('vaultName')]"
+                        },
+                        "policyName": {
+                            "value": "[parameters('policyName')]"
+                        },
+                        "vmName": {
+                            "value": "[field('name')]"
+                        },
+                        "vmResourceGroupLocation": {
+                            "value": "[field('location')]"
+                        },
+                        "vmResourceGroupName": {
+                            "value": "[resourceGroup().name]"
+                        },
+                        "vaultTags": {
+                            "value": "[parameters('vaultTags')]"
+                        },
+                        "vaultSku": {
+                            "value": "[parameters('vaultSku')]"
+                        },
+                        "scheduleRunTimes": {
+                            "value": "[parameters('scheduleRunTimes')]"
+                        },
+                        "timeZone": {
+                            "value": "[parameters('timeZone')]"
+                        },
+                        "dailyRetentionDurationCount": {
+                            "value": "[parameters('dailyRetentionDurationCount')]"
+                        },
+                        "daysOfTheWeek": {
+                            "value": "[parameters('daysOfTheWeek')]"
+                        },
+                        "weeklyRetentionDurationCount": {
+                            "value": "[parameters('weeklyRetentionDurationCount')]"
+                        },
+                        "monthsOfYear": {
+                            "value": "[parameters('monthsOfYear')]"
+                        },
+                        "retentionScheduleWeekly": {
+                            "value": "[parameters('retentionScheduleWeekly')]"
+                        },
+                        "monthlyRetentionDurationCount": {
+                            "value": "[parameters('monthlyRetentionDurationCount')]"
+                        },
+                        "yearlyRetentionDurationCount": {
+                            "value": "[parameters('yearlyRetentionDurationCount')]"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

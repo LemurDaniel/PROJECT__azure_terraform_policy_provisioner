@@ -1,0 +1,35 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "tags['govCompany']",
+                "exists": true
+            },
+            {
+                "value": "[resourceGroup().name]",
+                "notLike": "AzureBackupRG*"
+            },
+            {
+                "count": {
+                    "value": "[parameters('listOfAllowed_govCompany_values')]",
+                    "where": {
+                        "allOf": [
+                            {
+                                "field": "tags['govCompany']",
+                                "equals": "[split(current(),'|')[0]]"
+                            },
+                            {
+                                "value": "[split(current(),'|')[1]]",
+                                "equals": "Enabled"
+                            }
+                        ]
+                    }
+                },
+                "equals": 0
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

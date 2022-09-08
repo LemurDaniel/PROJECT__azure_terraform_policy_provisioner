@@ -1,0 +1,37 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "tags['govConfidentialityIntegrityAvailability']",
+                "exists": true
+            },
+            {
+                "value": "[resourceGroup().name]",
+                "notLike": "AzureBackupRG*"
+            },
+            {
+                "anyOf": [
+                    {
+                        "value": "[length(split(field('tags[govConfidentialityIntegrityAvailability]'), ','))]",
+                        "notEquals": 3
+                    },
+                    {
+                        "value": "[if( equals( 3, length(split(field('tags[govConfidentialityIntegrityAvailability]'), ',')) ),   split(field('tags[govConfidentialityIntegrityAvailability]'), ',')[0],  'ElseValue' )]",
+                        "notIn": "[parameters('listOfAllowed_criticality_values')]"
+                    },
+                    {
+                        "value": "[if( equals( 3, length(split(field('tags[govConfidentialityIntegrityAvailability]'), ',')) ),   split(field('tags[govConfidentialityIntegrityAvailability]'), ',')[1],  'ElseValue' )]",
+                        "notIn": "[parameters('listOfAllowed_criticality_values')]"
+                    },
+                    {
+                        "value": "[if( equals( 3, length(split(field('tags[govConfidentialityIntegrityAvailability]'), ',')) ),   split(field('tags[govConfidentialityIntegrityAvailability]'), ',')[2],  'ElseValue' )]",
+                        "notIn": "[parameters('listOfAllowed_criticality_values')]"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

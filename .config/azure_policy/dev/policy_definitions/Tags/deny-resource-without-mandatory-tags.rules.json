@@ -1,0 +1,61 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "anyOf": [
+                    {
+                        "count": {
+                            "value": [
+                                "Microsoft.Insights/*",
+                                "Microsoft.Compute/virtualMachines/*",
+                                "Microsoft.Network/networkWatchers/*",
+                                "Microsoft.LabServices/locations*",
+                                "Microsoft.AlertsManagement*",
+                                "Microsoft.Network/firewallPolicies",
+                                "Microsoft.Compute/restorePointCollections",
+                                "Microsoft.Automation/AutomationAccounts/Configurations",
+                                "Microsoft.Portal/dashboards"
+                            ],
+                            "where": {
+                                "field": "type",
+                                "like": "[current()]"
+                            }
+                        },
+                        "Equals": 0
+                    },
+                    {
+                        "count": {
+                            "value": [
+                                "Microsoft.Network/networkWatchers/flowlogs"
+                            ],
+                            "where": {
+                                "field": "type",
+                                "like": "[current()]"
+                            }
+                        },
+                        "notEquals": 0
+                    }
+                ]
+            },
+            {
+                "value": "[resourceGroup().name]",
+                "notLike": "AzureBackupRG_*"
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "tags['govDeploymentCodeRef']",
+                        "exists": "false"
+                    },
+                    {
+                        "field": "tags['govDeploymentType']",
+                        "exists": "false"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

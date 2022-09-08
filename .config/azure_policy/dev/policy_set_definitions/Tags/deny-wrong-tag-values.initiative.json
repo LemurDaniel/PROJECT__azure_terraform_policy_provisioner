@@ -1,0 +1,194 @@
+[
+    {
+        "policyDefinitionName": "deny-gov-company",
+        "policyReferenceId": "deny-gov-company",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "listOfAllowed_govCompany_values": {
+                "value": "[parameters('listOfAllowed_govCompany_values')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-gov-billing",
+        "policyReferenceId": "deny-gov-billing",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "tagName": {
+                "value": "govBilling"
+            },
+            "listOfAllowed_values": {
+                "value": "[parameters('listOfAllowed_govBilling_values')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-gov-deploymenttype",
+        "policyReferenceId": "deny-gov-deploymenttype",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "tagName": {
+                "value": "govDeploymenttype"
+            },
+            "listOfAllowed_values": {
+                "value": "[parameters('listOfAllowed_govDeploymentType_values')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-gov-environment",
+        "policyReferenceId": "deny-gov-environment",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "tagName": {
+                "value": "govEnvironment"
+            },
+            "listOfAllowed_values": {
+                "value": "[parameters('listOfAllowed_govEnvironment_values')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-gov-businesscriticality",
+        "policyReferenceId": "deny-gov-businesscriticality",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "tagName": {
+                "value": "govBusinesscriticality"
+            },
+            "listOfAllowed_values": {
+                "value": "[parameters('listOfAllowed_criticality_values')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-gov-responsible",
+        "policyReferenceId": "deny-gov-responsible",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "tagName": {
+                "value": "govResponsible"
+            },
+            "listOfAllowed_Email_patterns": {
+                "value": "[parameters('listOfAllowed_Email_patterns')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-gov-accountable",
+        "policyReferenceId": "deny-gov-accountable",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "tagName": {
+                "value": "govAccountable"
+            },
+            "listOfAllowed_Email_patterns": {
+                "value": "[parameters('listOfAllowed_Email_patterns')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-gov-extresponsible",
+        "policyReferenceId": "deny-gov-extresponsible",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "tagName": {
+                "value": "govExternalResponsible"
+            },
+            "listOfAllowed_Email_patterns": {
+                "value": "[parameters('listOfAllowed_Email_patterns')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-gov-deploymentcoderef",
+        "policyReferenceId": "deny-gov-deploymentcoderef",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "defaultExclusionTagValue": {
+                "value": "[parameters('defaultExclusionTagValue')]"
+            },
+            "listOfAllowed_DeploymentURL_patterns": {
+                "value": "[parameters('listOfAllowed_DeploymentURL_patterns')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-gov-cia",
+        "policyReferenceId": "deny-gov-cia",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "listOfAllowed_criticality_values": {
+                "value": "[parameters('listOfAllowed_criticality_values')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-gov-costcenter",
+        "policyReferenceId": "deny-gov-costcenter",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-acf-delete",
+        "policyReferenceId": "deny-acf-delete",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-acf-backuppolicy",
+        "policyReferenceId": "deny-acf-backuppolicy",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "defaultExclusionTagValue": {
+                "value": "[parameters('defaultExclusionTagValue')]"
+            },
+            "listOfAllowed_acfBackupPolicyVm_patterns": {
+                "value": "[parameters('listOfAllowed_acfBackupPolicyVm_patterns')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-acf-vmoperatinghours",
+        "policyReferenceId": "deny-acf-vmoperatinghours",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "listOfAllowed_TimeZone_values": {
+                "value": "[parameters('listOfAllowed_TimeZone_values')]"
+            },
+            "listOfAllowed_validWeekDay_values": {
+                "value": "[parameters('listOfAllowed_validWeekDay_values')]"
+            }
+        }
+    }
+]

@@ -1,0 +1,20 @@
+{
+    "displayName": "deny-resource-without-mandatory-tags",
+    "description": "This policy denies creation of Reources without mandatory tags.",
+    "mode": "Indexed",
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "Audit",
+                "Deny",
+                "Disabled"
+            ],
+            "defaultValue": "Audit"
+        }
+    }
+}

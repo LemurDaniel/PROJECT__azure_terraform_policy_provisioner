@@ -1,0 +1,12 @@
+{
+    "displayName": "deny-gov-company",
+    "description": "",
+    "parameters": {
+        "effect": {
+            "type": "string"
+        },
+        "listOfAllowed_govCompany_values": {
+            "type": "Array"
+        }
+    }
+}

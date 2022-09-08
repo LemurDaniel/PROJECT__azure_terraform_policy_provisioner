@@ -1,0 +1,6 @@
+{
+    "displayName": "deny-mandatory-tags-rg",
+    "description": "This policy audits mandatory tags for the resourcegroup.",
+    "mode": "All",
+    "parameters": {}
+}

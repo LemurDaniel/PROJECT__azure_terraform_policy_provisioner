@@ -1,0 +1,15 @@
+{
+    "displayName": "deny-gov-extresponsible",
+    "description": "",
+    "parameters": {
+        "effect": {
+            "type": "string"
+        },
+        "tagName": {
+            "type": "string"
+        },
+        "listOfAllowed_Email_patterns": {
+            "type": "Array"
+        }
+    }
+}

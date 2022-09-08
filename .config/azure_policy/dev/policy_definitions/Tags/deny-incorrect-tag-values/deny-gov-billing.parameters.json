@@ -1,0 +1,15 @@
+{
+    "displayName": "deny-gov-billing",
+    "description": "",
+    "parameters": {
+        "effect": {
+            "type": "string"
+        },
+        "tagName": {
+            "type": "string"
+        },
+        "listOfAllowed_values": {
+            "type": "Array"
+        }
+    }
+}

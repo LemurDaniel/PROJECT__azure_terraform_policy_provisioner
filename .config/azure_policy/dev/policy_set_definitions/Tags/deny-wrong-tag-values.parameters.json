@@ -1,0 +1,133 @@
+{
+    "displayName": "deny-tag-values",
+    "description": "This initiative checks several tag values for correctness.",
+    "parameters": {
+        "effect": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Effect of policy.",
+                "description": "Specify the effect of the policy."
+            },
+            "defaultValue": "audit"
+        },
+        "listOfAllowed_govCompany_values": {
+            "type": "Array",
+            "metadata": {
+                "displayName": "List of allowed tag values",
+                "description": "List of allowed tag values"
+            },
+            "defaultValue": [
+                "035825|Enabled|BRZ France SAS)",
+                "070010|Enabled|Tauber Bau Nürnberg Hoch- und Ingenieurbau GmbH)",
+                "070018|Enabled|Ingenieurbau George Bähr GmbH)",
+                "070019|Enabled|Bau Kaiser GmbH)",
+                "070029|Enabled|Tauber Bau Straßen- und Tiefbau GmbH)",
+                "070030|Enabled|Mennicke Rohrbau GmbH)",
+                "070037|Enabled|Mennicke Rohrbau Dresden GmbH)",
+                "070039|Enabled|Brochier Rohrleitungs- und Anlagenbau GmbH)",
+                "070043|Enabled|Bau Kaiser Metallbau GmbH)",
+                "070045|Enabled|Bayernhaus Wohn- und Gewerbebau GmbH)",
+                "070048|Enabled|Bayernhaus Immobilien Management GmbH)",
+                "070056|Enabled|Machina Gebr. Hannewald GmbH & Co. KG)",
+                "070060|Enabled|Nürnberger Baugruppe GmbH + Co KG)",
+                "070070|Enabled|Bayernhaus Projektentwicklung GmbH)",
+                "70071|Disabled|Bayernhaus Wohnbau DD 1. GmbH)",
+                "070086|Enabled|BLS Baugruppe Logistik und Service GmbH)",
+                "070087|Enabled|BGP Baugruppe Generalplanung GmbH)",
+                "070101|Enabled|BRZ Deutschland GmbH)",
+                "70108|Disabled|MJP-BRZ Bausoftware)",
+                "070109|Enabled|BIB GmbH)",
+                "070115|Enabled|BRZ Schweiz AG)"
+            ]
+        },
+        "listOfAllowed_validWeekDay_values": {
+            "type": "Array",
+            "defaultValue": [
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri",
+                "Sat",
+                "Sun"
+            ]
+        },
+        "listOfAllowed_Email_patterns": {
+            "type": "Array",
+            "defaultValue": [
+                "*@brz.eu",
+                "*@baugruppe.de",
+                "*@bayernhaus.de",
+                "*@bib-gmbh.de",
+                "*@NBGRedeploymentTest.onmicrosoft.com"
+            ]
+        },
+        "listOfAllowed_DeploymentURL_patterns": {
+            "type": "Array",
+            "defaultValue": [
+                "https://*",
+                "http://*"
+            ]
+        },
+        "listOfAllowed_govDeploymentType_values": {
+            "type": "Array",
+            "metadata": {
+                "displayName": "List of allowed tag values",
+                "description": "List of allowed tag values"
+            },
+            "defaultValue": [
+                "IaC",
+                "Manual",
+                "Script",
+                "AzureFunction",
+                "AzureMigrate",
+                "Other"
+            ]
+        },
+        "listOfAllowed_govEnvironment_values": {
+            "type": "Array",
+            "defaultValue": [
+                "Dev",
+                "Test",
+                "Stage",
+                "Prod",
+                "NonProd"
+            ]
+        },
+        "listOfAllowed_criticality_values": {
+            "type": "Array",
+            "defaultValue": [
+                "Low",
+                "Medium",
+                "High"
+            ]
+        },
+        "listOfAllowed_govBilling_values": {
+            "type": "Array",
+            "defaultValue": [
+                "Internal",
+                "External",
+                "Corporate"
+            ]
+        },
+        "listOfAllowed_acfBackupPolicyVm_patterns": {
+            "type": "Array",
+            "defaultValue": [
+                "Bp#Vm01y",
+                "Bp#Vm02w",
+                "Bp#Vm02y",
+                "Bp#Vm26w"
+            ]
+        },
+        "listOfAllowed_TimeZone_values": {
+            "type": "Array",
+            "defaultValue": [
+                "Central Europe Standard Time"
+            ]
+        },
+        "defaultExclusionTagValue": {
+            "type": "String",
+            "defaultValue": "None"
+        }
+    }
+}

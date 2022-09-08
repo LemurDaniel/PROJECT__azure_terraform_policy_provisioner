@@ -1,0 +1,98 @@
+[
+    {
+        "policyDefinitionName": "deny-priv-owner",
+        "policyReferenceId": "deny-owner",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "roleDefinitionId": {
+                "value": "[parameters('roleDefinitionId_owner')]"
+            },
+            "principalTypes": {
+                "value": "[parameters('principalTypes')]"
+            },
+            "resourceIdExclusions": {
+                "value": "[parameters('resourceIdExclusions')]"
+            },
+            "listOfPrincipalIdExceptions": {
+                "value": "[parameters('listOfPrincipalIdExceptions')]"
+            },
+            "listOfAppzoneSubscriptions": {
+                "value": "[parameters('listOfAppzoneSubscriptions')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-priv-limitedowner",
+        "policyReferenceId": "deny-acflimitedowner",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "roleDefinitionId": {
+                "value": "[parameters('roleDefinitionId_acfLimitedOwner')]"
+            },
+            "principalTypes": {
+                "value": "[parameters('principalTypes')]"
+            },
+            "resourceIdExclusions": {
+                "value": "[parameters('resourceIdExclusions')]"
+            },
+            "listOfPrincipalIdExceptions": {
+                "value": "[parameters('listOfPrincipalIdExceptions')]"
+            },
+            "listOfAppzoneSubscriptions": {
+                "value": "[parameters('listOfAppzoneSubscriptions')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-priv-useraccessadmin",
+        "policyReferenceId": "deny-useraccessadmin",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "roleDefinitionId": {
+                "value": "[parameters('roleDefinitionId_userAccessadmin')]"
+            },
+            "principalTypes": {
+                "value": "[parameters('principalTypes')]"
+            },
+            "resourceIdExclusions": {
+                "value": "[parameters('resourceIdExclusions')]"
+            },
+            "listOfPrincipalIdExceptions": {
+                "value": "[parameters('listOfPrincipalIdExceptions')]"
+            },
+            "listOfAppzoneSubscriptions": {
+                "value": "[parameters('listOfAppzoneSubscriptions')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionName": "deny-priv-contributor",
+        "policyReferenceId": "deny-contributor",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            },
+            "roleDefinitionId": {
+                "value": "[parameters('roleDefinitionId_contributor')]"
+            },
+            "principalTypes": {
+                "value": "[parameters('principalTypes')]"
+            },
+            "resourceIdExclusions": {
+                "value": "[parameters('resourceIdExclusions')]"
+            },
+            "listOfPrincipalIdExceptions": {
+                "value": "[parameters('listOfPrincipalIdExceptions')]"
+            },
+            "listOfAppzoneSubscriptions": {
+                "value": "[parameters('listOfAppzoneSubscriptions')]"
+            }
+        }
+    }
+]
