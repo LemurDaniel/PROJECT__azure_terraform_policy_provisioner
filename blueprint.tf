@@ -1,21 +1,25 @@
 
 
 resource "azurerm_management_group" "root" {
-  display_name = "acfroot-dev"
+  display_name = "acfroot"
+  name         = "acfroot"
 }
 
 resource "azurerm_management_group" "management" {
   display_name               = "management"
+  name                       = "management-test"
   parent_management_group_id = azurerm_management_group.root.id
 }
 
 resource "azurerm_management_group" "solution" {
   display_name               = "solution"
+  name                       = "solution-test"
   parent_management_group_id = azurerm_management_group.root.id
 }
 
 resource "azurerm_management_group" "sandbox" {
   display_name               = "sandbox"
+  name                       = "sandbox-test"
   parent_management_group_id = azurerm_management_group.root.id
 }
 
@@ -30,10 +34,10 @@ module "policy_provisioner" {
   default_assignment_location    = "westeurope"
 
   mangagement_group_scopes = [
-    azurerm_management_group.root.display_name,
-    azurerm_management_group.management.display_name,
-    azurerm_management_group.solution.display_name,
-    azurerm_management_group.sandbox.display_name
+    azurerm_management_group.root.name,
+    azurerm_management_group.management.name,
+    azurerm_management_group.solution.name,
+    azurerm_management_group.sandbox.name
   ]
 
 
