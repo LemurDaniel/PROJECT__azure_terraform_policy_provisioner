@@ -7,24 +7,24 @@
 module "policy_provisioner" {
   source = "./policy_provisioner"
 
-  # Switch between usage of assignment name or Displayname as definied in *.parameters.json
-  # False always uses the filename as the Policy-Definition Name
+  // Switch between usage of assignment name or Displayname as definied in *.parameters.json
+  // False always uses the filename as the Policy-Definition Name
   use_displayname                = false
-  # The Root Management Group, where Policy-Definitions and PolicySet-Definitions are deployed.
+  // The Root Management Group, where Policy-Definitions and PolicySet-Definitions are deployed.
   root_deployment_scope_mgm_name = azurerm_management_group.root.name
-  # Path to the Folder containing all Policy-Definitions, PolicySet-Definitions and Policy-Assignments.
+  // Path to the Folder containing all Policy-Definitions, PolicySet-Definitions and Policy-Assignments.
   custom_policy_definition_path  = "./.config/azure_policy/dev"
-  # The default assignment location. (For DeployIfNotExists and Modify Policies)
+  // The default assignment location. (For DeployIfNotExists and Modify Policies)
   default_assignment_location    = "westeurope"
 
-  # List of management group for the Policy-Assignments.
-  # (Each must have a corresponding <management_group_name>.assignments.json)
+  // List of management group for the Policy-Assignments.
+  // (Each must have a corresponding <management_group_name>.assignments.json)
   mangagement_group_scopes = [
     azurerm_management_group.root.display_name
   ]
 
-  # Map of Variables that are dynamically injected into Policy-Assignment Parameters.
-  # Only one layer of Depth and Variables are only meant to have a single value or a list of single values.
+  // Map of Variables that are dynamically injected into Policy-Assignment Parameters.
+  // Only one layer of Depth and Variables are only meant to have a single value or a list of single values.
   policy_injected_variables = {
     single_injected_value = "This is inserted dynamically"
     list_injected_values = [
@@ -53,28 +53,28 @@ Policy-Assignments are done via the `<management_group_name>.assignments.json`-F
   "Compute": [],
   "Tags": [
      {
-      # Enable/Disable Policy-Assignment
+      // Enable/Disable Policy-Assignment
       "enabled": true,
-      # Corresponds to the filename of either a Policy-Definition or PolicySet-Definition
+      // Corresponds to the filename of either a Policy-Definition or PolicySet-Definition
       "associated_policy": "deny-without-mandatory-tags",
-      # The Name of the Policy/PolicySet-Assignment
+      // The Name of the Policy/PolicySet-Assignment
       "assignment_name": "deny-wo-man-tags",
       "description": "optional",
       "location": "optional",
-      # Any Subsequent Paramets passed down to the Policy.
+      // Any Subsequent Paramets passed down to the Policy.
       "parameters": {
         "effect": "Deny",
         "ExcludedVmNamePatterns": [
           "Preparati*",
-          # Dynamically Appending a list of values as defined in module
-          # The Pattern is $[<Variable name under 'policy_injected_variables'-Key>]
+          // Dynamically Appending a list of values as defined in module
+          // The Pattern is $[<Variable name under 'policy_injected_variables'-Key>]
           "$[list_injected_values]"
         ],
-        # Inject a single Value dynamically.
-        # The Pattern is $[<Variable name under 'policy_injected_variables'-Key>]
+        // Inject a single Value dynamically.
+        // The Pattern is $[<Variable name under 'policy_injected_variables'-Key>]
         "AnotherValue": "$[single_injected_value]"
       },
-      # A list of Not-Scopes for the Policy.
+      // A list of Not-Scopes for the Policy.
       "not_scopes": [
         "/providers/Microsoft.Management/managementGroups/sandbox-dev"
       ]
