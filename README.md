@@ -24,6 +24,7 @@ module "policy_provisioner" {
   ]
 
   # Map of Variables that are dynamically injected into Policy-Assignment Parameters.
+  # Only one layer of Depth and Variables are only meant to have a single value or a list of single values.
   policy_injected_variables = {
     single_injected_value = "This is inserted dynamically"
     list_injected_values = [
