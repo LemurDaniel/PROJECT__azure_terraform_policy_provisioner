@@ -24,7 +24,7 @@ module "policy_provisioner" {
   ]
 
   // Map of Variables that are dynamically injected into Policy-Assignment Parameters.
-  // Only one layer of Depth and Variables are only meant to have a single value or a list of single values.
+  // Only one layer of Depth and Variables are only meant to have a single value or a list of single values. 
   policy_injected_variables = {
     single_injected_value = "This is inserted dynamically"
     list_injected_values = [
@@ -73,6 +73,8 @@ Policy-Assignments are done via the `<management_group_name>.assignments.json`-F
         // Inject a single Value dynamically.
         // The Pattern is $[<Variable name under 'policy_injected_variables'-Key>]
         "AnotherValue": "$[single_injected_value]"
+          // Only single replacements possible, not "bla-$[single_injected_value]-$[single_injected_value]-test"
+          // (Maybe improvements in the Future, more sophistication not required as of yet)
       },
       // A list of Not-Scopes for the Policy.
       "not_scopes": [
