@@ -77,6 +77,7 @@ Policy-Assignments are done via the `<management_group_name>.assignments.json`-F
 >      },
 >      // A list of Not-Scopes for the Policy.
 >      "not_scopes": [
+>        // dynamically appending lists also works for not_scopes
 >        "/providers/Microsoft.Management/managementGroups/sandbox-dev"
 >      ]
 >    }
@@ -91,7 +92,7 @@ Policy-Assignments are done via the `<management_group_name>.assignments.json`-F
 ### **Defining Policies**
 
 !NOTE!: 
-Each Policy-Definition is in an additional Sub-Folder, whose name gets set as the 'category'-Metadata on each Policy. The Structure itself isn't releveant for the `*.assignment.json` or `*.initiative.json`-Files. Any Subsequent Subfolder is ignored by the Policy-Provisioner and only Relevant for the User to have a Structure them >easily. Like Grouping Policies, that are part of an initiatvie, in a shared subfolder like => `Priviledges/deny-priv-elevation`
+Each Policy-Definition is in an additional Sub-Folder, whose name gets set as the 'category'-Metadata on each Policy. The Structure itself isn't releveant for the `*.assignment.json` or `*.initiative.json`-Files. Any Subsequent Subfolder is ignored by the Policy-Provisioner and only Relevant for the User to Structure them easily. Like Grouping Policies, that are part of an initiatvie, in a shared subfolder like => `Priviledges/deny-priv-elevation`
   
 
 Policy-Definition are stored under the 'custom_policy_definition_path' in the 'policy_definitions'-Folder
