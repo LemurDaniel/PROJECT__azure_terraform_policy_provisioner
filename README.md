@@ -106,7 +106,7 @@ Each Policy-Definition consits of a `<name>.paramters.json*` and a corresponding
 >    "mode": "(Optional) defaults to Indexed",
 >    "managedIdentity": "(Optional) Defaults to 'SystemAssigned' on Modify and DeployIfNotExists Policies",
 >    "roleDefinitionIds": [
->        "(Optional) Defaults to Contributor on Modify and DeployIfNotExists Policies"
+>        // (Optional) Defaults to Contributor on Modify and DeployIfNotExists Policies
 >        "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
 >    ],
 >    "parameters": {
