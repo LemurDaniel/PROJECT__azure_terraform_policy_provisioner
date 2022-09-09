@@ -200,7 +200,7 @@ Each PolicySet-Definition consits of a `<name>.parameters.json` and a correspond
 >    "description": "(Optional)",
 >    "managedIdentity": "(Required for Modify and DeployIfNotExists Policies)",
 >    "roleDefinitionIds": [
->        "(Required for Modify and DeployIfNotExists Policies)"
+>        // (Required for Modify and DeployIfNotExists Policies)
 >        "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
 >    ],
 >    "parameters": {}
