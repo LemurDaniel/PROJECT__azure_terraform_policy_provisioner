@@ -3,39 +3,39 @@
 
 ### Module Usage:
 
->```terraform
->module "policy_provisioner" {
->   source = "./policy_provisioner"
->
->   // Switch between usage of assignment name or Displayname as definied in *.parameters.json
->   // False always uses the filename as the Policy-Definition Name
->   use_displayname                = false
->   // The Root Management Group, where Policy-Definitions and PolicySet-Definitions are deployed.
->   root_deployment_scope_mgm_name = azurerm_management_group.root.name
->   // Path to the Folder containing all Policy-Definitions, PolicySet-Definitions and Policy-Assignments.
->   custom_policy_definition_path  = "./.config/azure_policy/dev"
->   // The default assignment location. (For DeployIfNotExists and Modify Policies)
->   default_assignment_location    = "westeurope"
->
->   // List of management group for the Policy-Assignments.
->   // (Each must have a corresponding <management_group_name>.assignments.json)
->   mangagement_group_scopes = [
->    azurerm_management_group.root.display_name
->   ]
->
->   // Map of Variables that are dynamically injected into Policy-Assignment Parameters.
->   // Only one layer of Depth and Variables are only meant to have a single value or a list of single values. 
->   policy_injected_variables = {
->    single_injected_value = "This is inserted dynamically"
->    list_injected_values = [
->      "This values are inserted dynamically1",
->      "This values are inserted dynamically2",
->      "This values are inserted dynamically3",
->      "This values are inserted dynamically4"
->    ]
->  }
->}
->```
+```terraform
+module "policy_provisioner" {
+   source = "./policy_provisioner"
+
+   // Switch between usage of assignment name or Displayname as definied in *.parameters.json
+   // False always uses the filename as the Policy-Definition Name
+   use_displayname                = false
+   // The Root Management Group, where Policy-Definitions and PolicySet-Definitions are deployed.
+   root_deployment_scope_mgm_name = azurerm_management_group.root.name
+   // Path to the Folder containing all Policy-Definitions, PolicySet-Definitions and Policy-Assignments.
+   custom_policy_definition_path  = "./.config/azure_policy/dev"
+   // The default assignment location. (For DeployIfNotExists and Modify Policies)
+   default_assignment_location    = "westeurope"
+
+   // List of management group for the Policy-Assignments.
+   // (Each must have a corresponding <management_group_name>.assignments.json)
+   mangagement_group_scopes = [
+    azurerm_management_group.root.display_name
+   ]
+
+   // Map of Variables that are dynamically injected into Policy-Assignment Parameters.
+   // Only one layer of Depth and Variables are only meant to have a single value or a list of single values. 
+   policy_injected_variables = {
+    single_injected_value = "This is inserted dynamically"
+    list_injected_values = [
+      "This values are inserted dynamically1",
+      "This values are inserted dynamically2",
+      "This values are inserted dynamically3",
+      "This values are inserted dynamically4"
+    ]
+  }
+}
+```
 
 ---
 
