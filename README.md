@@ -105,11 +105,9 @@ Each Policy-Definition consits of a `<name>.paramters.json*` and a corresponding
 >    "displayName": "(Optional) The Policy-Definition Displayname",
 >    "description": "(Optional) A general Description of the Policy-Definition",
 >    "mode": "(Optional) defaults to Indexed",
+>    // If this key is missing, the parameters and rules are evaluted for modify or DeployIfNotExists 
+>    // Requires the use the parameter_name 'effect' if policy effect is not hardcoded.
 >    "managedIdentity": "(Optional) Defaults to 'SystemAssigned' on Modify and DeployIfNotExists Policies",
->    "roleDefinitionIds": [
->        // (Optional) Defaults to Contributor on Modify and DeployIfNotExists Policies
->        "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
->    ],
 >    "parameters": {
 >        "location": {
 >            "type": "String",
