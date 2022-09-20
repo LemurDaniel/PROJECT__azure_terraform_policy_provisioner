@@ -28,10 +28,10 @@ module "policy_provisioner" {
    policy_injected_variables = {
     single_injected_value = "This is inserted dynamically"
     list_injected_values = [
-      "This values are inserted dynamically1",
-      "This values are inserted dynamically2",
-      "This values are inserted dynamically3",
-      "This values are inserted dynamically4"
+      "These values are inserted dynamically1",
+      "These values are inserted dynamically2",
+      "These values are inserted dynamically3",
+      "These values are inserted dynamically4"
     ]
   }
 }
