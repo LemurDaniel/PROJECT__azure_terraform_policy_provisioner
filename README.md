@@ -206,7 +206,7 @@ Each PolicySet-Definition consits of a `<name>.parameters.json` and a correspond
 >}
 >```
 
-#### **Structure of `<name>.paramters.json`**
+#### **Structure of `<name>.initiative.json`**
 >These hold all the Policies, that are Part of the Set, and pass down any Parameters
 >```jsonc
 >[
