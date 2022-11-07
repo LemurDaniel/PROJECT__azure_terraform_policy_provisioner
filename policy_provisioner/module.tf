@@ -40,9 +40,8 @@ resource "azurerm_policy_set_definition" "custom" {
 
   dynamic "policy_definition_reference" {
     for_each = each.value.policy_references
-
     content {
-      policy_definition_id = azurerm_policy_definition.custom[policy_definition_reference.value.policyDefinitionName].id
+      policy_definition_id = length(regexall("/providers/microsoft.authorization/policy",lower(policy_definition_reference.value.policyDefinitionName))) > 0 ? policy_definition_reference.value.policyDefinitionName : azurerm_policy_definition.custom[policy_definition_reference.value.policyDefinitionName].id
       parameter_values     = policy_definition_reference.value.parameters != {} ? jsonencode(policy_definition_reference.value.parameters) : null
       reference_id         = policy_definition_reference.value.policyReferenceId
       policy_group_names   = lookup(policy_definition_reference.value, "policy_group_names", null)
@@ -54,24 +53,6 @@ resource "azurerm_policy_set_definition" "custom" {
 #######################################################################################
 #################      Policy Assignment per Management Group      ####################
 #######################################################################################
-
-/*
-
-Momentarily not needed anymore. Policy provisioner creates Id without data-element.
-
-data "azurerm_policy_definition" "built_in" {
-  for_each = local.list_of_built_in_policy_references
-
-  name = each.value
-}
-
-data "azurerm_policy_set_definition" "built_in" {
-  for_each = local.list_of_built_in_policy_set_references
-
-  name = each.value
-}
-
-*/
 
 locals {
   policy_assignments_mapping = {

@@ -17,3 +17,7 @@ output "custom_policy_assignment_dataset_from_json" {
 output "list_of_associated_polices" {
   value = local.list_of_associated_polices
 }
+
+output "policy_injected_variables" {
+  value = var.policy_injected_variables
+}
