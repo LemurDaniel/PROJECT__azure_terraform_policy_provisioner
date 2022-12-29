@@ -27,6 +27,7 @@ module "policy_provisioner" {
    // Only one layer of Depth and Variables are only meant to have a single value or a list of single values. 
    policy_injected_variables = {
     single_injected_value = "This is inserted dynamically"
+    second_single_injected_value = "second dynmaically inserted element"
     list_injected_values = [
       "These values are inserted dynamically1",
       "These values are inserted dynamically2",
@@ -65,17 +66,24 @@ Policy-Assignments are done via the `<management_group_name>.assignments.json`-F
 >        "effect": "Deny",
 >        "ExcludedVmNamePatterns": [
 >          "Preparati*",
+>
+>
 >          // Dynamically Appending a list of values as defined in module
->          // The Pattern is $[<Variable name under 'policy_injected_variables'-Key>]
->          // Now also multi-replacements possible like: "bla-$[single_injected_value]-$[single_injected_value]-test"
->          "$[list_injected_values]"
+>          // The Pattern is $[<VariableName>]
+>          "$[list_injected_values]",
+>          // Now also multi-replacements possible like:
+>          "$[single_injected_value]-----$[second_single_injected_value]"
 >        ],
+>
+>
 >        // Inject a single Value dynamically.
->        // The Pattern is $[<Variable name under 'policy_injected_variables'-Key>]
->        "AnotherValue": "$[single_injected_value]"
->          // Now also multi-replacements possible like: "bla-$[single_injected_value]-$[single_injected_value]-test"
->          // (Maybe improvements in the Future, more sophistication not required as of yet)
+>        // The Pattern is $[<VariableName>]
+>        "AnotherValue": "$[single_injected_value]",
+>        // Now also multi-replacements possible like:
+>        "AnotherValue2": "$[single_injected_value]-----$[second_single_injected_value]"
 >      },
+>
+>
 >      // A list of Not-Scopes for the Policy.
 >      "not_scopes": [
 >        // dynamically appending lists also works for not_scopes
