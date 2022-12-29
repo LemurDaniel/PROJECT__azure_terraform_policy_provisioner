@@ -24,16 +24,21 @@ locals {
     flatten(values(local.custom_policy_assignment_dataset_from_json))[*].associated_policy
   )
 
+  /*
   list_of_built_in_policy_references = {
     for associated_policy in local.list_of_associated_polices :
     associated_policy => split("/", associated_policy)[length(split("/", associated_policy)) - 1]
     if length(regexall("^/providers/microsoft[.]authorization/policydefinitions/*", lower(associated_policy))) > 0
   }
+  */
+
+  /*
   list_of_built_in_policy_set_references = {
     for associated_policy in local.list_of_associated_polices :
     associated_policy => split("/", associated_policy)[length(split("/", associated_policy)) - 1]
     if length(regexall("^/providers/microsoft[.]authorization/policysetdefinitions/*", lower(associated_policy))) > 0
   }
+  */
 }
 
 #######################################################################################
@@ -88,10 +93,12 @@ locals {
 
       managedIdentity = lookup(local.custom_policy_definition_parameter_dataset_from_json[filepath], "managedIdentity",
         contains(["modify", "deployifnotexists"],
-          lower(try(
-            local.custom_policy_definition_parameter_dataset_from_json[filepath].parameters.effect.defaultValue,
-            local.custom_policy_definition_rules_dataset_from_json[filepath].then.effect
-          ))
+          lower(
+            try(
+              local.custom_policy_definition_parameter_dataset_from_json[filepath].parameters.effect.defaultValue,
+              local.custom_policy_definition_rules_dataset_from_json[filepath].then.effect
+            )
+          )
         ) == true ? "SystemAssigned" : null
       )
 

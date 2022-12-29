@@ -11,10 +11,37 @@ resource "azurerm_management_group_policy_assignment" "policy_assignment" {
 
   management_group_id = format("%s%s", "/providers/Microsoft.Management/managementGroups/", var.policy_assignment_scope)
 
-  parameters           = each.value.parameters != {} ? jsonencode(each.value.parameters) : null
+  parameters = length(keys(merge(each.value.parameters_list, each.value.parameters_single))) == 0 ? null : (
+    jsonencode(merge(
+      {
+        for param_name, param_value in each.value.parameters_single :
+        param_name => {
+          # Attempt type conversions
+          value = try(
+            tobool(param_value),
+            tonumber(param_value),
+            param_value
+          )
+        }
+      },
+      {
+        for param_name, param_value in each.value.parameters_list :
+        param_name => {
+          value = [
+            # Attempt type conversions
+            for element in param_value :
+            try(
+              tobool(element),
+              tonumber(element),
+              element
+            )
+          ]
+        }
+    }))
+  )
+
   policy_definition_id = each.value.policy_definition_id
   not_scopes           = each.value.not_scopes
-
 
   location = each.value.managedIdentity == "SystemAssigned" ? coalesce(each.value.location, var.default_assignment_location) : null
 

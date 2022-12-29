@@ -41,7 +41,7 @@ resource "azurerm_policy_set_definition" "custom" {
   dynamic "policy_definition_reference" {
     for_each = each.value.policy_references
     content {
-      policy_definition_id = length(regexall("/providers/microsoft.authorization/policy",lower(policy_definition_reference.value.policyDefinitionName))) > 0 ? policy_definition_reference.value.policyDefinitionName : azurerm_policy_definition.custom[policy_definition_reference.value.policyDefinitionName].id
+      policy_definition_id = length(regexall("/providers/microsoft.authorization/policy", lower(policy_definition_reference.value.policyDefinitionName))) > 0 ? policy_definition_reference.value.policyDefinitionName : azurerm_policy_definition.custom[policy_definition_reference.value.policyDefinitionName].id
       parameter_values     = policy_definition_reference.value.parameters != {} ? jsonencode(policy_definition_reference.value.parameters) : null
       reference_id         = policy_definition_reference.value.policyReferenceId
       policy_group_names   = lookup(policy_definition_reference.value, "policy_group_names", null)
@@ -53,6 +53,24 @@ resource "azurerm_policy_set_definition" "custom" {
 #######################################################################################
 #################      Policy Assignment per Management Group      ####################
 #######################################################################################
+
+/*
+
+Momentarily not needed anymore. Policy provisioner creates Id without data-element.
+
+data "azurerm_policy_definition" "built_in" {
+  for_each = local.list_of_built_in_policy_references
+
+  name = each.value
+}
+
+data "azurerm_policy_set_definition" "built_in" {
+  for_each = local.list_of_built_in_policy_set_references
+
+  name = each.value
+}
+
+*/
 
 locals {
   policy_assignments_mapping = {
@@ -80,8 +98,35 @@ locals {
         display_name    = var.use_displayname ? lookup(config, "display_name", config.assignment_name) : config.assignment_name
         assignment_name = config.assignment_name
         description     = lookup(config, "description", "")
-        parameters      = config.parameters
-        not_scopes      = config.not_scopes
+
+        // Terraform type constrained limitation.
+        // Terraform apperently can't infer a base type for all elements via any,
+        // when value in parameters are 'list' or single 'string/number'
+        parameters_single = {
+          for param_name, param_value in lookup(config, "parameters", {}) :
+          param_name => {
+            # Splits a string in regex caputred components by $[...] for policy injected variables.
+            for index, value in
+            compact(split("~", replace(param_value, "/(\\$\\[[a-zA-Z_0-9]+\\])/", "~$1~"))) :
+            index => value
+          }
+          # Test if element is a list by applying a function which expects a list.
+          if try(chunklist(param_value, 0) == null, true)
+        }
+        parameters_list = {
+          for param_name, param_value in lookup(config, "parameters", {}) :
+          param_name => [for entry in param_value :
+            {
+              for index, value in
+              compact(split("~", replace(entry, "/(\\$\\[[a-zA-Z_0-9]+\\])/", "~$1~"))) :
+              index => value
+            }
+          ]
+          # Test if element is a list by applying a function which expects a list.
+          if try(chunklist(param_value, 0) != null, false)
+        }
+
+        not_scopes = config.not_scopes
 
         location = lookup(config, "location", null)
 
@@ -92,25 +137,19 @@ locals {
           "category" : format("ACF-%s", replace(config.category, "_", " "))
         }
 
-        roleDefinitionIds = try(
-          try(
-            local.custom_policy_definitions_dataset_full[config.associated_policy].roleDefinitionIds,
-            local.custom_policy_set_definitions_dataset_full[config.associated_policy].roleDefinitionIds
-            # data.azurerm_policy_definition.built_in[config.associated_policy].policy_rule.then.details.roleDefinitionIds
-          ),
+        roleDefinitionIds = coalesce(
+          lookup(lookup(local.custom_policy_definitions_dataset_full, config.associated_policy, {}), "roleDefinitionIds", null),
+          lookup(lookup(local.custom_policy_set_definitions_dataset_full, config.associated_policy, {}), "roleDefinitionIds", null),
+          # data.azurerm_policy_definition.built_in[config.associated_policy].policy_rule.then.details.roleDefinitionIds
           []
         )
 
-        managedIdentity = lookup(config, "managedIdentity",
-          contains(["modify", "deployifnotexists"], lower(lookup(config.parameters, "effect", ""))) == true ? "SystemAssigned" : (
-            try(
-              try(
-                local.custom_policy_definitions_dataset_full[config.associated_policy].managedIdentity,
-                local.custom_policy_set_definitions_dataset_full[config.associated_policy].managedIdentity
-              ),
-              false
-            )
-          )
+        managedIdentity = coalesce(
+          lookup(config, "managedIdentity", null),
+          contains(["modify", "deployifnotexists"], lower(lookup(config.parameters, "effect", ""))) == true ? "SystemAssigned" : null,
+          lookup(lookup(local.custom_policy_definitions_dataset_full, config.associated_policy, {}), "managedIdentity", null),
+          lookup(lookup(local.custom_policy_set_definitions_dataset_full, config.associated_policy, {}), "managedIdentity", null),
+          "None"
         )
 
         /*

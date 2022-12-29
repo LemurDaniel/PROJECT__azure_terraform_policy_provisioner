@@ -43,6 +43,7 @@ module "policy_provisioner" {
 
   policy_injected_variables = {
     single_injected_value = "This is inserted dynamically"
+    second_single_injected_value = "second dynmaically inserted element"
     list_injected_values = [
       "This values are inserted dynamically1",
       "This values are inserted dynamically2",

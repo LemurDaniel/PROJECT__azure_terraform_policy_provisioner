@@ -67,17 +67,19 @@ Policy-Assignments are done via the `<management_group_name>.assignments.json`-F
 >          "Preparati*",
 >          // Dynamically Appending a list of values as defined in module
 >          // The Pattern is $[<Variable name under 'policy_injected_variables'-Key>]
+>          // Now also multi-replacements possible like: "bla-$[single_injected_value]-$[single_injected_value]-test"
 >          "$[list_injected_values]"
 >        ],
 >        // Inject a single Value dynamically.
 >        // The Pattern is $[<Variable name under 'policy_injected_variables'-Key>]
 >        "AnotherValue": "$[single_injected_value]"
->          // Only single replacements possible, not "bla-$[single_injected_value]-$[single_injected_value]-test"
+>          // Now also multi-replacements possible like: "bla-$[single_injected_value]-$[single_injected_value]-test"
 >          // (Maybe improvements in the Future, more sophistication not required as of yet)
 >      },
 >      // A list of Not-Scopes for the Policy.
 >      "not_scopes": [
 >        // dynamically appending lists also works for not_scopes
+>        // Doesn't support multi-replacements like: "bla-$[single_injected_value]-$[single_injected_value]-test"
 >        "/providers/Microsoft.Management/managementGroups/sandbox-dev"
 >      ]
 >    }
