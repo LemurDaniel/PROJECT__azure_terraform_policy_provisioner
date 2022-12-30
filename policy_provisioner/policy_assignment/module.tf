@@ -18,6 +18,8 @@ resource "azurerm_management_group_policy_assignment" "policy_assignment" {
         param_name => {
           # Attempt type conversions
           value = try(
+            can(regex("^tostring\\([0-9a-zA-Z]+\\)$", lower(trim(param_value, " ")))) ? (
+            tostring(compact(regexall("([0-9]+)|(true)|(false)", param_value)[0])[0])) :
             tobool(param_value),
             tonumber(param_value),
             param_value

@@ -11,8 +11,8 @@
         "effectDine": "DeployIfNotExists",
         "location": "westeurope",
         "resourceGroupRSV": "rg-recovery-dev-001",
-        "vaultNameRSV": "rsv-corpbackup-dev-001",
-        "backupTagNameVm": "acfBackupPolicyVm",
+        "vaultNameRSV": "32",
+        "backupTagNameVm": "toString(32)",
         "defaultExclusionTagValue": "$[single_injected_value]-----2$[second_single_injected_value]",
         "listOfAllowed_acfBackupPolicyVm_patterns": [
           "Bp#Vm01y",
