@@ -18,8 +18,9 @@ resource "azurerm_management_group_policy_assignment" "policy_assignment" {
         param_name => {
           # Attempt type conversions
           value = try(
+            # Sure it's not nice code, but complex terraform stuff, doesn't allow nice code.
             can(regex("^tostring\\([0-9a-zA-Z]+\\)$", lower(trim(param_value, " ")))) ? (
-            tostring(compact(regexall("([0-9]+)|(true)|(false)", param_value)[0])[0])) :
+            tostring(compact(regexall("([0-9]+)|(true)|(false)", param_value)[0])[0])) : regex(), # throw error. # Inline If converts tobool => tostring. Since Both side of Inline if need always be same type.
             tobool(param_value),
             tonumber(param_value),
             param_value
